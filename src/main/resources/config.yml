@@ -1,0 +1,14 @@
+# Configuration for DiscordSchematicUploader
+#
+# If you need help with setup or something isn't working, please join this Discord server: https://discord.gg/BCVHCzd77R
+#
+# This plugin is open-source and available at https://github.com/Dinty1/DiscordSchematicUploader
+#
+# Please do not touch this option
+config-version: ${project.version}
+#
+# What the command for uploading a schematic should be (the format is <command> [new schematic name])
+upload-command: "!upload"
+#
+# What the command for downloading a schematic should be (the format is <command> <schematic name>)
+download-command: "!download"
