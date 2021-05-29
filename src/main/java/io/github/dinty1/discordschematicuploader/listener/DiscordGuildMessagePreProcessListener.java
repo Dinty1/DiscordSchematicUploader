@@ -59,13 +59,14 @@ public class DiscordGuildMessagePreProcessListener {
             }
         } else if (message.getContentRaw().startsWith(downloadCommand)) {
             event.setCancelled(true);
-            // Adding 1 to the length because the arg is specified after a space
-            final String[] args = message.getContentRaw().substring(downloadCommand.length() + 1).split(" ");
 
             // Make sure there's a schem name specified
-            if (args.length < 1 || args[0].equals("")) {
+            if (message.getContentRaw().trim().equals(downloadCommand)) {
                 message.getChannel().sendMessage(MessageUtil.createEmbedBuilder(Color.RED, message.getAuthor(), "You must specify the name of the schematic that you want to download.").build()).queue();
             } else {
+                // Adding 1 to the length because the arg is specified after a space
+                final String[] args = message.getContentRaw().substring(downloadCommand.length() + 1).split(" ");
+
                 String schematicFileExtension = ".schem";
 
                 // Make sure that it exists in one form or another
