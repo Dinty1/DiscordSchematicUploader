@@ -12,7 +12,7 @@ import java.io.File;
 import java.util.Objects;
 
 public class DiscordGuildMessagePreProcessListener {
-    private DiscordSchematicUploader plugin;
+    private final DiscordSchematicUploader plugin;
 
     public DiscordGuildMessagePreProcessListener(DiscordSchematicUploader plugin) {
         this.plugin = plugin;

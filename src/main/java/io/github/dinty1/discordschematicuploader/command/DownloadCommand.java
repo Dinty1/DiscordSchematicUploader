@@ -4,6 +4,7 @@ import github.scarsz.discordsrv.api.events.DiscordGuildMessagePreProcessEvent;
 import github.scarsz.discordsrv.dependencies.jda.api.entities.Message;
 import io.github.dinty1.discordschematicuploader.DiscordSchematicUploader;
 import io.github.dinty1.discordschematicuploader.util.MessageUtil;
+import io.github.dinty1.discordschematicuploader.util.RoleUtil;
 
 import java.awt.*;
 import java.io.File;
@@ -17,8 +18,11 @@ public class DownloadCommand {
 
         event.setCancelled(true);
 
+        if (!RoleUtil.hasAllowedRole(event.getMember(), DiscordSchematicUploader.getPlugin().getConfig().getStringList("download-command-allowed-roles"))) {
+            message.getChannel().sendMessage(MessageUtil.createEmbedBuilder(Color.RED, message.getAuthor(), "You do not have permission to execute this command.").build()).queue();
+        }
         // Make sure there's a schem name specified
-        if (message.getContentRaw().trim().equals(downloadCommand)) {
+        else if (message.getContentRaw().trim().equals(downloadCommand)) {
             message.getChannel().sendMessage(MessageUtil.createEmbedBuilder(Color.RED, message.getAuthor(), "You must specify the name of the schematic that you want to download.").build()).queue();
         } else {
             // Adding 1 to the length because the arg is specified after a space

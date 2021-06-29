@@ -1,14 +1,22 @@
 # Configuration for DiscordSchematicUploader
 #
-# If you need help with setup or something isn't working, please join this Discord server: https://discord.gg/BCVHCzd77R
+# If you need help with setup or something isn't working, please join this Discord server: https://dinty1.github.io/plugins-discord
 #
 # This plugin is open-source and available at https://github.com/Dinty1/DiscordSchematicUploader
 #
-# Please do not touch this option
+# Please do not touch this
 config-version: ${project.version}
 #
 # What the command for uploading a schematic should be
 upload-command: "!upload"
 #
+# Roles that are allowed to use the upload command. Role names and IDs are both acceptable.
+# If you wish to allow all users access to the command, set this option to ["@everyone"]
+upload-command-allowed-roles: ["Builder", "Staff"]
+#
 # What the command for downloading a schematic should be (the format is <command> <schematic name>)
 download-command: "!download"
+#
+# Roles that are allowed to use the download command. Role names and IDs are both acceptable.
+# If you wish to allow all users access to the command, set this option to ["@everyone"]
+download-command-allowed-roles: ["Builder", "Staff"]
