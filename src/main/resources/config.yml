@@ -20,3 +20,6 @@ download-command: "!download"
 # Roles that are allowed to use the download command. Role names and IDs are both acceptable.
 # If you wish to allow all users access to the command, set this option to ["@everyone"]
 download-command-allowed-roles: ["Builder", "Staff"]
+#
+# Whether a downloaded schematic should be sent as a private message instead of posted in the channel where the command was sent
+send-downloaded-schematic-privately: false

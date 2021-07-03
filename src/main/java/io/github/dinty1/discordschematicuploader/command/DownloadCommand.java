@@ -12,6 +12,9 @@ import java.util.Objects;
 
 public class DownloadCommand {
 
+    private static final DiscordSchematicUploader plugin = DiscordSchematicUploader.getPlugin();
+
+    // I hate myself for making this static....
     public static void execute(DiscordGuildMessagePreProcessEvent event, File schematicFolder) {
         final Message message = event.getMessage();
         final String downloadCommand = Objects.requireNonNull(DiscordSchematicUploader.getPlugin().getConfig().getString("download-command"));
@@ -43,20 +46,28 @@ public class DownloadCommand {
             String finalSchematicFileExtension = schematicFileExtension;
             message.getChannel().sendMessage(MessageUtil.createEmbedBuilder(Color.GRAY, message.getAuthor(), "Attempting to download schematic `" + args[0] + schematicFileExtension + "`...").build()).queue(sentMessage -> {
                 final File schematicToDownload = new File(schematicFolder, args[0] + finalSchematicFileExtension);
-
                 try {
-                    message.getChannel().sendMessage("Here you go!").addFile(schematicToDownload).queue(sentSchematicMessage -> {
-                        sentMessage.editMessage(MessageUtil.createEmbedBuilder(Color.GREEN, message.getAuthor(), "Download successful!").build()).queue();
-                    });
+                    if (plugin.getConfig().getBoolean("send-downloaded-schematic-privately")) {
+                        event.getAuthor().openPrivateChannel().queue(privateChannel -> privateChannel.sendMessage("Here you go!").addFile(schematicToDownload).queue(msg -> {
+                            sentMessage.editMessage(MessageUtil.createEmbedBuilder(Color.GREEN, message.getAuthor(), "Download successful! Check your direct messages.").build()).queue();
+                        }, t -> notifyDirectMessageError(sentMessage, message)), t -> notifyDirectMessageError(sentMessage, message));
+                    } else {
+                        message.getChannel().sendMessage("Here you go!").addFile(schematicToDownload).queue(sentSchematicMessage ->
+                                sentMessage.editMessage(MessageUtil.createEmbedBuilder(Color.GREEN, message.getAuthor(), "Download successful!").build()).queue());
+                    }
                 } catch (IllegalArgumentException e) {
                     sentMessage.editMessage(MessageUtil.createEmbedBuilder(Color.RED, message.getAuthor(), "An error occurred when trying to download the schematic. The most likely cause is that it is too large to upload to Discord!").build()).queue();
                 } catch (Exception e) {
-                    DiscordSchematicUploader.getPlugin().getLogger().severe(e.getMessage());
+                    plugin.getLogger().severe(e.getMessage());
                     e.printStackTrace();
                     sentMessage.editMessage(MessageUtil.createEmbedBuilder(Color.RED, message.getAuthor(), "An unknown error occurred when trying to download the schematic. Please check the server console for more details.").build()).queue();
                 }
             });
 
         }
+    }
+
+    private static void notifyDirectMessageError(Message sentMessage, Message originalMessage) {
+        sentMessage.editMessage(MessageUtil.createEmbedBuilder(Color.RED, originalMessage.getAuthor(), "I was unable to send you a direct message.").build()).queue();
     }
 }
