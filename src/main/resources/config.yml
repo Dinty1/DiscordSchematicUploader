@@ -7,6 +7,9 @@
 # Please do not touch this
 config-version: ${project.version}
 #
+# Whether the plugin should check for new available versions
+update-check: true
+#
 # What the command for uploading a schematic should be
 upload-command: "!upload"
 #

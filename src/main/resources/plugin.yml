@@ -6,3 +6,8 @@ description: Easily upload worldedit schematics from Discord
 api-version: 1.16
 version: ${project.version}
 depend: [WorldEdit, DiscordSRV]
+
+permissions:
+  discordschematicuploader.adminalerts:
+    default: op
+    description: Gives the user notifications about plugin updates
