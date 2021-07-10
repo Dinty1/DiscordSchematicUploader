@@ -1,6 +1,6 @@
 package io.github.dinty1.discordschematicuploader.command;
 
-import github.scarsz.discordsrv.api.events.DiscordGuildMessagePreProcessEvent;
+import github.scarsz.discordsrv.api.events.DiscordGuildMessageReceivedEvent;
 import github.scarsz.discordsrv.dependencies.jda.api.entities.Message;
 import io.github.dinty1.discordschematicuploader.DiscordSchematicUploader;
 import io.github.dinty1.discordschematicuploader.util.MessageUtil;
@@ -11,11 +11,9 @@ import java.io.File;
 
 public class UploadCommand {
 
-    public static void execute(DiscordGuildMessagePreProcessEvent event, File schematicFolder) {
+    public static void execute(DiscordGuildMessageReceivedEvent event, File schematicFolder) {
         final Message message = event.getMessage();
         final Message.Attachment attachment = message.getAttachments().size() > 0 ? message.getAttachments().get(0) : null;
-
-        event.setCancelled(true);
 
         if (!RoleUtil.hasAllowedRole(event.getMember(), DiscordSchematicUploader.getPlugin().getConfig().getStringList("upload-command-allowed-roles"))) {
             message.getChannel().sendMessage(MessageUtil.createEmbedBuilder(Color.RED, message.getAuthor(), "You do not have permission to execute this command.").build()).queue();
