@@ -22,5 +22,3 @@ The plugin should create a config.yml file which you can edit to change some set
 `!download <name>`: Download a schematic from the server.
 
 ![](https://i.imgur.com/hJ9GoD4.png)
-
-Note: These commands will only work in channels that are included in DiscordSRV's `Channels` option.

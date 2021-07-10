@@ -1,6 +1,6 @@
 package io.github.dinty1.discordschematicuploader.command;
 
-import github.scarsz.discordsrv.api.events.DiscordGuildMessagePreProcessEvent;
+import github.scarsz.discordsrv.api.events.DiscordGuildMessageReceivedEvent;
 import github.scarsz.discordsrv.dependencies.jda.api.entities.Message;
 import io.github.dinty1.discordschematicuploader.DiscordSchematicUploader;
 import io.github.dinty1.discordschematicuploader.util.MessageUtil;
@@ -15,11 +15,9 @@ public class DownloadCommand {
     private static final DiscordSchematicUploader plugin = DiscordSchematicUploader.getPlugin();
 
     // I hate myself for making this static....
-    public static void execute(DiscordGuildMessagePreProcessEvent event, File schematicFolder) {
+    public static void execute(DiscordGuildMessageReceivedEvent event, File schematicFolder) {
         final Message message = event.getMessage();
         final String downloadCommand = Objects.requireNonNull(DiscordSchematicUploader.getPlugin().getConfig().getString("download-command"));
-
-        event.setCancelled(true);
 
         if (!RoleUtil.hasAllowedRole(event.getMember(), DiscordSchematicUploader.getPlugin().getConfig().getStringList("download-command-allowed-roles"))) {
             message.getChannel().sendMessage(MessageUtil.createEmbedBuilder(Color.RED, message.getAuthor(), "You do not have permission to execute this command.").build()).queue();

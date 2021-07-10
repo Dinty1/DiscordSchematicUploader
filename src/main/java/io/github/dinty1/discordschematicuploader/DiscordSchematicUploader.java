@@ -1,7 +1,7 @@
 package io.github.dinty1.discordschematicuploader;
 
 import github.scarsz.discordsrv.DiscordSRV;
-import io.github.dinty1.discordschematicuploader.listener.DiscordGuildMessagePreProcessListener;
+import io.github.dinty1.discordschematicuploader.listener.DiscordMessageListener;
 import io.github.dinty1.discordschematicuploader.listener.PlayerJoinListener;
 import io.github.dinty1.discordschematicuploader.metrics.Metrics;
 import io.github.dinty1.discordschematicuploader.util.ConfigUtil;
@@ -48,6 +48,6 @@ public class DiscordSchematicUploader extends JavaPlugin {
 
         getServer().getPluginManager().registerEvents(new PlayerJoinListener(), this);
 
-        DiscordSRV.api.subscribe(new DiscordGuildMessagePreProcessListener(this));
+        DiscordSRV.api.subscribe(new DiscordMessageListener(this));
     }
 }
