@@ -4,6 +4,7 @@
 [![License](https://img.shields.io/github/license/Dinty1/DiscordSchematicUploader.svg)](https://github.com/Dinty1/DiscordSchematicUploader/blob/master/LICENSE)
 [![](https://img.shields.io/bstats/servers/11934)](https://bstats.org/plugin/bukkit/DiscordSchematicUploader/11934)
 [![](https://img.shields.io/bstats/players/11934)](https://bstats.org/plugin/bukkit/DiscordSchematicUploader/11934)
+[![CodeFactor](https://www.codefactor.io/repository/github/dinty1/discordschematicuploader/badge)](https://www.codefactor.io/repository/github/dinty1/discordschematicuploader)
 
 DiscordSchematicUploader allows users to upload and download WorldEdit schematics from Discord using DiscordSRV.
 
