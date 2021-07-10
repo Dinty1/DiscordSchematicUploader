@@ -2,7 +2,7 @@ main: io.github.dinty1.discordschematicuploader.DiscordSchematicUploader
 
 name: DiscordSchematicUploader
 author: Dinty1
-description: Easily upload worldedit schematics from Discord
+description: Upload and download schematics from the comfort of your Discord server
 api-version: 1.16
 version: ${project.version}
 depend: [WorldEdit, DiscordSRV]
