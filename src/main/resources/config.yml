@@ -17,6 +17,9 @@ upload-command: "!upload"
 # If you wish to allow all users access to the command, set this option to ["@everyone"]
 upload-command-allowed-roles: ["Builder", "Staff"]
 #
+# Roles that are allowed to replace existing schematics when uploading one with the same name
+upload-command-allowed-to-overwrite: ["Staff"]
+#
 # What the command for downloading a schematic should be (the format is <command> <schematic name>)
 download-command: "!download"
 #

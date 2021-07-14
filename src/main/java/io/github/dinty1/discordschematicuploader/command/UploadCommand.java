@@ -14,6 +14,7 @@ public class UploadCommand {
     public static void execute(DiscordGuildMessageReceivedEvent event, File schematicFolder) {
         final Message message = event.getMessage();
         final Message.Attachment attachment = message.getAttachments().size() > 0 ? message.getAttachments().get(0) : null;
+        final DiscordSchematicUploader plugin = DiscordSchematicUploader.getPlugin();
 
         if (!RoleUtil.hasAllowedRole(event.getMember(), DiscordSchematicUploader.getPlugin().getConfig().getStringList("upload-command-allowed-roles"))) {
             message.getChannel().sendMessage(MessageUtil.createEmbedBuilder(Color.RED, message.getAuthor(), "You do not have permission to execute this command.").build()).queue();
@@ -25,16 +26,22 @@ public class UploadCommand {
             message.getChannel().sendMessage(MessageUtil.createEmbedBuilder(Color.GRAY, message.getAuthor(), "Attempting to save schematic...").build()).queue(sentMessage -> {
 
                 // Make sure the schematic doesn't already exist
-                File downloadedSchematic = new File(schematicFolder, attachment.getFileName());
+                final File downloadedSchematic = new File(schematicFolder, attachment.getFileName());
+                final boolean allowedToOverwrite = RoleUtil.hasAllowedRole(event.getMember(), plugin.getConfig().getStringList("upload-command-allowed-to-overwrite"));
                 if (downloadedSchematic.exists()) {
-                    sentMessage.editMessage(MessageUtil.createEmbedBuilder(Color.RED, message.getAuthor(), "The schematic `" + attachment.getFileName() + "` already exists.").build()).queue();
-                    return;
+                    if (message.getContentRaw().substring(plugin.getConfig().getString("upload-command").length()).contains("-o") && allowedToOverwrite) {
+                        downloadedSchematic.delete();
+                    } else {
+                        final String overwriteMessage = allowedToOverwrite ? " You can replace the old file by adding `-o` to your message when sending the command." : "";
+                        sentMessage.editMessage(MessageUtil.createEmbedBuilder(Color.RED, message.getAuthor(), "The schematic `" + attachment.getFileName() + "` already exists." + overwriteMessage).build()).queue();
+                        return;
+                    }
                 }
                 try {
                     attachment.downloadToFile(downloadedSchematic);
                     sentMessage.editMessage(MessageUtil.createEmbedBuilder(Color.GREEN, message.getAuthor(), "Schematic successfully saved as `" + attachment.getFileName() + "`.").build()).queue();
                 } catch (Exception e) {
-                    DiscordSchematicUploader.getPlugin().getLogger().severe(e.getMessage());
+                    plugin.getLogger().severe(e.getMessage());
                     e.printStackTrace();
                     sentMessage.editMessage(MessageUtil.createEmbedBuilder(Color.RED, message.getAuthor(), "An error occurred when trying to save the schematic. Please check the server console for more details.").build()).queue();
                 }
