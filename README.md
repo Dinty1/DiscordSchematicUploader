@@ -16,7 +16,7 @@ Installation itself is simple, simply drag and drop the plugin into your plugins
 The plugin should create a config.yml file which you can edit to change some settings about the plugin. One of the first things you will need to do is add to the list of allowed roles for the upload and download commands. The comments and examples in the config will explain how to do this.
 
 ## Commands
-`!upload` with an attached file: Upload a schematic to your server.
+`!upload [-o]` with an attached file: Upload a schematic to your server.
 
 ![](https://i.imgur.com/bF6vVcI.png)
 
