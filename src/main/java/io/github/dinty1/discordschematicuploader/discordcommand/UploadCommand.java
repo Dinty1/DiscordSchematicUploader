@@ -1,4 +1,4 @@
-package io.github.dinty1.discordschematicuploader.command;
+package io.github.dinty1.discordschematicuploader.discordcommand;
 
 import github.scarsz.discordsrv.api.events.DiscordGuildMessageReceivedEvent;
 import github.scarsz.discordsrv.dependencies.jda.api.entities.Message;
