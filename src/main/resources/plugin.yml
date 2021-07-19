@@ -7,7 +7,19 @@ api-version: 1.16
 version: ${project.version}
 depend: [WorldEdit, DiscordSRV]
 
+commands:
+  discordschematicuploader:
+    description: "Commands related to the management of the plugin"
+    aliases: [dsu]
+    permission: "discordschematicuploader.admincommand"
+    permission-message: "§cYou do not have access to this command"
+    usage: |
+      /<command> reloadconfig - Reload the plugin's configuration
+
 permissions:
   discordschematicuploader.adminalerts:
     default: op
     description: Gives the user notifications about plugin updates
+  discordschematicuploader.admincommand:
+    default: op
+    description: Gives access to the /discordschematicuploader command

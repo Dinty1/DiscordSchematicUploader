@@ -12,7 +12,7 @@ public class ConfigUtil {
 
     public static void migrateIfNeeded(FileConfiguration oldConfig, Plugin plugin) throws IOException {
         if (!oldConfig.getString("config-version").equals(plugin.getDescription().getVersion())) {
-            plugin.getLogger().info("Your config version does not match the plugin version, migrating...");
+            plugin.getLogger().info("Your config version does not match the plugin version, updating...");
 
             //load config
             File oldConfigFile = new File(plugin.getDataFolder(), "config.yml");

@@ -6,8 +6,8 @@ import github.scarsz.discordsrv.api.events.DiscordGuildMessagePreProcessEvent;
 import github.scarsz.discordsrv.api.events.DiscordGuildMessageReceivedEvent;
 import github.scarsz.discordsrv.dependencies.jda.api.entities.Message;
 import io.github.dinty1.discordschematicuploader.DiscordSchematicUploader;
-import io.github.dinty1.discordschematicuploader.command.DownloadCommand;
-import io.github.dinty1.discordschematicuploader.command.UploadCommand;
+import io.github.dinty1.discordschematicuploader.discordcommand.DownloadCommand;
+import io.github.dinty1.discordschematicuploader.discordcommand.UploadCommand;
 import org.bukkit.Bukkit;
 
 import java.io.File;
