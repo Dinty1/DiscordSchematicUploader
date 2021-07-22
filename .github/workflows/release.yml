@@ -58,4 +58,4 @@ jobs:
           DISCORD_WEBHOOK: ${{ secrets.RELEASE_WEBHOOK_TO_DEDICATED_CHANNEL }}
         uses: Ilshidur/action-discord@master
         with:
-          args: '**Version ${{github.event.pull_request.title}}**```${{github.event.pull_request.body}}```Direct download: ${{steps.upload_assets.outputs.browser_download_url}}'
+          args: '**<@&{{ secrets.PING_ROLE }}> Version ${{github.event.pull_request.title}}**```${{github.event.pull_request.body}}```Direct download: ${{steps.upload_assets.outputs.browser_download_url}}'
