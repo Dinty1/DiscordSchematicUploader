@@ -62,6 +62,7 @@ public class UploadCommand {
                 try {
                     attachment.downloadToFile(downloadedSchematic);
                     sentMessage.editMessage(MessageUtil.createEmbedBuilder(Color.GREEN, message.getAuthor(), "Schematic successfully saved as `" + attachment.getFileName() + "`.").build()).queue();
+                    plugin.getLogger().info(String.format("User %s (%s) uploaded schematic %s.", message.getAuthor().getAsTag(), message.getAuthor().getId(), attachment.getFileName()));
                 } catch (Exception e) {
                     plugin.getLogger().severe(e.getMessage());
                     e.printStackTrace();

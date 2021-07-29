@@ -8,12 +8,12 @@
  * it under the terms of the GNU General Public License as
  * published by the Free Software Foundation, either version 3 of the
  * License, or (at your option) any later version.
- * 
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public
  * License along with this program.  If not, see
  * <http://www.gnu.org/licenses/gpl-3.0.html>.
@@ -70,10 +70,14 @@ public class DownloadCommand {
                     if (plugin.getConfig().getBoolean("send-downloaded-schematic-privately")) {
                         event.getAuthor().openPrivateChannel().queue(privateChannel -> privateChannel.sendMessage("Here you go!").addFile(schematicToDownload).queue(msg -> {
                             sentMessage.editMessage(MessageUtil.createEmbedBuilder(Color.GREEN, message.getAuthor(), "Download successful! Check your direct messages.").build()).queue();
+                            plugin.getLogger().info(String.format("User %s (%s) downloaded schematic %s.", message.getAuthor().getAsTag(), message.getAuthor().getId(), schematicToDownload.getName()));
                         }, t -> notifyDirectMessageError(sentMessage, message)), t -> notifyDirectMessageError(sentMessage, message));
                     } else {
-                        message.getChannel().sendMessage("Here you go!").addFile(schematicToDownload).queue(sentSchematicMessage ->
-                                sentMessage.editMessage(MessageUtil.createEmbedBuilder(Color.GREEN, message.getAuthor(), "Download successful!").build()).queue());
+                        message.getChannel().sendMessage("Here you go!").addFile(schematicToDownload).queue(sentSchematicMessage -> {
+                            sentMessage.editMessage(MessageUtil.createEmbedBuilder(Color.GREEN, message.getAuthor(), "Download successful!").build()).queue();
+                            plugin.getLogger().info(String.format("User %s (%s) downloaded schematic %s.", message.getAuthor().getAsTag(), message.getAuthor().getId(), schematicToDownload.getName()));
+                        });
+
                     }
                 } catch (IllegalArgumentException e) {
                     sentMessage.editMessage(MessageUtil.createEmbedBuilder(Color.RED, message.getAuthor(), "An error occurred when trying to download the schematic. The most likely cause is that it is too large to upload to Discord!").build()).queue();
