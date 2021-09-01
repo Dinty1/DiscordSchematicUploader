@@ -1,5 +1,28 @@
+/*-
+ * LICENSE
+ * DiscordSchematicUploader
+ * -------------
+ * Copyright (C) 2021 Dinty1
+ * -------------
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public
+ * License along with this program.  If not, see
+ * <http://www.gnu.org/licenses/gpl-3.0.html>.
+ * END
+ */
+
 package io.github.dinty1.discordschematicuploader.util;
 
+import io.github.dinty1.discordschematicuploader.DiscordSchematicUploader;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.plugin.Plugin;
 
@@ -57,6 +80,46 @@ public class ConfigUtil {
             fileWriter.close();
 
             plugin.reloadConfig();
+        }
+    }
+
+    public enum Message {
+        UPLOAD_COMMAND_NO_PERMISSION("upload-command-no-permission"),
+        UPLOAD_COMMAND_NO_ATTACHMENT("upload-command-no-attachment"),
+        UPLOAD_COMMAND_INVALID_SCHEMATIC_FILE("upload-command-invalid-schematic-file"),
+        UPLOAD_COMMAND_ATTEMPTING_SCHEMATIC_SAVE("upload-command-attempting-schematic-save"),
+        UPLOAD_COMMAND_SCHEMATIC_ALREADY_EXISTS("upload-command-schematic-already-exists"),
+        UPLOAD_COMMAND_CAN_OVERWRITE("upload-command-can-overwrite"),
+        UPLOAD_COMMAND_SUCCESS("upload-command-success"),
+        UPLOAD_COMMAND_ERROR("upload-command-error"),
+
+        DOWNLOAD_COMMAND_NO_PERMISSION("download-command-no-permission"),
+        DOWNLOAD_COMMAND_NO_NAME_SPECIFIED("download-command-no-name-specified"),
+        DOWNLOAD_COMMAND_SCHEMATIC_NOT_FOUND("download-command-schematic-not-found"),
+        DOWNLOAD_COMMAND_ATTEMPTING_DOWNLOAD("download-command-attempting-download"),
+        DOWNLOAD_COMMAND_PRIVATE_MESSAGE("download-command-private-message"),
+        DOWNLOAD_COMMAND_PRIVATE_MESSAGE_SUCCESS("download-command-private-message-success"),
+        DOWNLOAD_COMMAND_PRIVATE_MESSAGE_FAILURE("download-command-private-message-failure"),
+        DOWNLOAD_COMMAND_DOWNLOAD_MESSAGE("download-command-download-message"),
+        DOWNLOAD_COMMAND_SUCCESS("download-command-success"),
+        DOWNLOAD_COMMAND_FAILED_TO_UPLOAD_TO_DISCORD("download-command-failed-to-upload-to-discord"),
+        DOWNLOAD_COMMAND_OTHER_ERROR("download-command-other-error");
+
+
+        private final String configOption;
+
+        Message(String configOption) {
+            this.configOption = configOption;
+        }
+
+        @Override
+        public String toString() {
+            final String returnValue = DiscordSchematicUploader.getPlugin().getConfig().getString(this.configOption);
+            return returnValue.length() > 256 ? returnValue.substring(0, 255) : returnValue;
+        }
+
+        public String toString(String schematicName) {
+            return this.toString().replace("%schematic%", schematicName);
         }
     }
 }

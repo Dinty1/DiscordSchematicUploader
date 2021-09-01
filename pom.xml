@@ -46,6 +46,39 @@
                 <filtering>true</filtering>
             </resource>
         </resources>
+        <plugins>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>license-maven-plugin</artifactId>
+                <version>2.0.0</version>
+                <configuration>
+                    <copyrightOwners>Dinty1</copyrightOwners>
+                    <organizationName>e</organizationName>
+                    <inceptionYear>2021</inceptionYear>
+                    <licenseName>gpl_v3</licenseName>
+                    <licenseFile>LICENSE</licenseFile>
+                    <addJavaLicenseAfterPackage>false</addJavaLicenseAfterPackage>
+                    <emptyLineAfterHeader>true</emptyLineAfterHeader>
+                    <processStartTag>LICENSE</processStartTag>
+                    <sectionDelimiter>-------------</sectionDelimiter>
+                    <processEndTag>END</processEndTag>
+                </configuration>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>update-file-header</goal>
+                        </goals>
+                        <phase>process-sources</phase>
+                        <configuration>
+                            <roots>
+                                <root>src/main/java</root>
+                                <root>src/test</root>
+                            </roots>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
     </build>
 
 </project>
