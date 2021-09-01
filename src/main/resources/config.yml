@@ -16,17 +16,65 @@ upload-command: "!upload"
 #
 # Roles that are allowed to use the upload command. Role names and IDs are both acceptable.
 # If you wish to allow all users access to the command, set this option to ["@everyone"]
-upload-command-allowed-roles: ["Builder", "Staff"]
+upload-command-allowed-roles: [ "Builder", "Staff" ]
 #
 # Roles that are allowed to replace existing schematics when uploading one with the same name
-upload-command-allowed-to-overwrite: ["Staff"]
+upload-command-allowed-to-overwrite: [ "Staff" ]
 #
 # What the command for downloading a schematic should be (the format is <command> <schematic name>)
 download-command: "!download"
 #
 # Roles that are allowed to use the download command. Role names and IDs are both acceptable.
 # If you wish to allow all users access to the command, set this option to ["@everyone"]
-download-command-allowed-roles: ["Builder", "Staff"]
+download-command-allowed-roles: [ "Builder", "Staff" ]
 #
 # Whether a downloaded schematic should be sent as a private message to whoever ran the command instead of posted in the channel where the command was sent
 send-downloaded-schematic-privately: false
+#
+# MESSAGES
+# Modify these values to change the messages displayed when certain things happen with the plugin.
+# The maximum length for these values is 256 characters.s
+#
+# Upload Command
+#
+# Shown when a user with no permission attempts to use the upload command
+upload-command-no-permission: "You do not have permission to execute this command."
+# Shown when a user uses the upload command without attaching a file
+upload-command-no-attachment: "You need to attach a file to upload."
+# Shown when a user attaches a non-schematic file with the upload command
+upload-command-invalid-schematic-file: "That's not a valid schematic file."
+# Shown when a schematic is being loaded onto the server
+upload-command-attempting-schematic-save: "Attempting to save schematic..."
+# Shown when a schematic by the name of the one being uploaded already exists
+upload-command-schematic-already-exists: "The schematic `%schematic%` already exists."
+# Added to the end of the previous message if the user has permission to overwrite schematics
+upload-command-can-overwrite: "You can replace the old file by adding `-o` to your message when sending the command."
+# Shown when a schematic is successfully loaded onto the server
+upload-command-success: "Schematic successfully saved as `%schematic%`."
+# Shown when an unknown error occurs while loading the schematic (hopefully you won't have to see this)
+upload-command-error: "An error occurred when trying to save the schematic. Please check the server console for more details."
+#
+# Download Command
+#
+# Shown when a user with no permission attempts to use the download command
+download-command-no-permission: "You do not have permission to execute this command."
+# Shown when a user runs the download command without specifying a schematic name
+download-command-no-name-specified: "You must specify the name of the schematic that you want to download."
+# Shown when the requested schematic cannot be found
+download-command-schematic-not-found: "That schematic doesn't seem to exist."
+# Shown when the schematic is being extracted from the server
+download-command-attempting-download: "Attempting to download %schematic%..."
+# The message sent with the schematic if it is to be sent privately
+download-command-private-message: "Here you go!"
+# Shown when the schematic has been sent to the user
+download-command-private-message-success: "Download successful! Check your direct messages."
+# Shown when the bot has failed to send the schematic to the user
+download-command-private-message-failure: "I was unable to send you a direct message. Please check your privacy settings and make sure that you are accepting messages."
+# The message sent with the schematic if it is to be sent publicly
+download-command-download-message: "Here you go!"
+# Shown when the download has been successful
+download-command-success: "Download successful!"
+# Shown when the schematic has failed to upload to Discord
+download-command-failed-to-upload-to-discord: "An error occurred when trying to download the schematic. The most likely cause is that it is too large to upload to Discord!"
+# Shown when an unknown error occurs when trying to download the schematic (hopefully you won't have to see this)
+download-command-other-error: "An unknown error occurred when trying to download the schematic. Please check the server console for more details."

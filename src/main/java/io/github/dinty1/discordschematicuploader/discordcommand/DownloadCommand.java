@@ -25,6 +25,7 @@ package io.github.dinty1.discordschematicuploader.discordcommand;
 import github.scarsz.discordsrv.api.events.DiscordGuildMessageReceivedEvent;
 import github.scarsz.discordsrv.dependencies.jda.api.entities.Message;
 import io.github.dinty1.discordschematicuploader.DiscordSchematicUploader;
+import io.github.dinty1.discordschematicuploader.util.ConfigUtil;
 import io.github.dinty1.discordschematicuploader.util.MessageUtil;
 import io.github.dinty1.discordschematicuploader.util.RoleUtil;
 
@@ -42,11 +43,11 @@ public class DownloadCommand {
         final String downloadCommand = Objects.requireNonNull(DiscordSchematicUploader.getPlugin().getConfig().getString("download-command"));
 
         if (!RoleUtil.hasAllowedRole(event.getMember(), DiscordSchematicUploader.getPlugin().getConfig().getStringList("download-command-allowed-roles"))) {
-            message.getChannel().sendMessage(MessageUtil.createEmbedBuilder(Color.RED, message.getAuthor(), "You do not have permission to execute this command.").build()).queue();
+            message.getChannel().sendMessage(MessageUtil.createEmbedBuilder(Color.RED, message.getAuthor(), ConfigUtil.Message.DOWNLOAD_COMMAND_NO_PERMISSION.toString()).build()).queue();
         }
         // Make sure there's a schem name specified
         else if (message.getContentRaw().trim().equals(downloadCommand)) {
-            message.getChannel().sendMessage(MessageUtil.createEmbedBuilder(Color.RED, message.getAuthor(), "You must specify the name of the schematic that you want to download.").build()).queue();
+            message.getChannel().sendMessage(MessageUtil.createEmbedBuilder(Color.RED, message.getAuthor(), ConfigUtil.Message.DOWNLOAD_COMMAND_NO_NAME_SPECIFIED.toString()).build()).queue();
         } else {
             // Adding 1 to the length because the arg is specified after a space
             final String[] args = message.getContentRaw().substring(downloadCommand.length() + 1).split(" ");
@@ -56,7 +57,7 @@ public class DownloadCommand {
             // Make sure that it exists in one form or another
             if (!new File(schematicFolder, args[0] + ".schem").exists()) {
                 if (!new File(schematicFolder, args[0] + ".schematic").exists()) {
-                    message.getChannel().sendMessage(MessageUtil.createEmbedBuilder(Color.RED, message.getAuthor(), "That schematic doesn't seem to exist.").build()).queue();
+                    message.getChannel().sendMessage(MessageUtil.createEmbedBuilder(Color.RED, message.getAuthor(), ConfigUtil.Message.DOWNLOAD_COMMAND_SCHEMATIC_NOT_FOUND.toString(args[0])).build()).queue();
                     return;
                 } else {
                     schematicFileExtension = ".schematic";
@@ -64,27 +65,27 @@ public class DownloadCommand {
             }
 
             String finalSchematicFileExtension = schematicFileExtension;
-            message.getChannel().sendMessage(MessageUtil.createEmbedBuilder(Color.GRAY, message.getAuthor(), "Attempting to download schematic `" + args[0] + schematicFileExtension + "`...").build()).queue(sentMessage -> {
+            message.getChannel().sendMessage(MessageUtil.createEmbedBuilder(Color.GRAY, message.getAuthor(), ConfigUtil.Message.DOWNLOAD_COMMAND_ATTEMPTING_DOWNLOAD.toString(args[0] + schematicFileExtension)).build()).queue(sentMessage -> {
                 final File schematicToDownload = new File(schematicFolder, args[0] + finalSchematicFileExtension);
                 try {
                     if (plugin.getConfig().getBoolean("send-downloaded-schematic-privately")) {
-                        event.getAuthor().openPrivateChannel().queue(privateChannel -> privateChannel.sendMessage("Here you go!").addFile(schematicToDownload).queue(msg -> {
-                            sentMessage.editMessage(MessageUtil.createEmbedBuilder(Color.GREEN, message.getAuthor(), "Download successful! Check your direct messages.").build()).queue();
+                        event.getAuthor().openPrivateChannel().queue(privateChannel -> privateChannel.sendMessage(ConfigUtil.Message.DOWNLOAD_COMMAND_PRIVATE_MESSAGE.toString(args[0] + finalSchematicFileExtension)).addFile(schematicToDownload).queue(msg -> {
+                            sentMessage.editMessage(MessageUtil.createEmbedBuilder(Color.GREEN, message.getAuthor(), ConfigUtil.Message.DOWNLOAD_COMMAND_PRIVATE_MESSAGE_SUCCESS.toString(args[0] + finalSchematicFileExtension)).build()).queue();
                             plugin.getLogger().info(String.format("User %s (%s) downloaded schematic %s.", message.getAuthor().getAsTag(), message.getAuthor().getId(), schematicToDownload.getName()));
                         }, t -> notifyDirectMessageError(sentMessage, message)), t -> notifyDirectMessageError(sentMessage, message));
                     } else {
-                        message.getChannel().sendMessage("Here you go!").addFile(schematicToDownload).queue(sentSchematicMessage -> {
-                            sentMessage.editMessage(MessageUtil.createEmbedBuilder(Color.GREEN, message.getAuthor(), "Download successful!").build()).queue();
+                        message.getChannel().sendMessage(ConfigUtil.Message.DOWNLOAD_COMMAND_DOWNLOAD_MESSAGE.toString()).addFile(schematicToDownload).queue(sentSchematicMessage -> {
+                            sentMessage.editMessage(MessageUtil.createEmbedBuilder(Color.GREEN, message.getAuthor(), ConfigUtil.Message.DOWNLOAD_COMMAND_SUCCESS.toString(args[0] + finalSchematicFileExtension)).build()).queue();
                             plugin.getLogger().info(String.format("User %s (%s) downloaded schematic %s.", message.getAuthor().getAsTag(), message.getAuthor().getId(), schematicToDownload.getName()));
                         });
 
                     }
                 } catch (IllegalArgumentException e) {
-                    sentMessage.editMessage(MessageUtil.createEmbedBuilder(Color.RED, message.getAuthor(), "An error occurred when trying to download the schematic. The most likely cause is that it is too large to upload to Discord!").build()).queue();
+                    sentMessage.editMessage(MessageUtil.createEmbedBuilder(Color.RED, message.getAuthor(), ConfigUtil.Message.DOWNLOAD_COMMAND_FAILED_TO_UPLOAD_TO_DISCORD.toString(args[0] + finalSchematicFileExtension)).build()).queue();
                 } catch (Exception e) {
                     plugin.getLogger().severe(e.getMessage());
                     e.printStackTrace();
-                    sentMessage.editMessage(MessageUtil.createEmbedBuilder(Color.RED, message.getAuthor(), "An unknown error occurred when trying to download the schematic. Please check the server console for more details.").build()).queue();
+                    sentMessage.editMessage(MessageUtil.createEmbedBuilder(Color.RED, message.getAuthor(), ConfigUtil.Message.DOWNLOAD_COMMAND_OTHER_ERROR.toString(args[0] + finalSchematicFileExtension)).build()).queue();
                 }
             });
 
@@ -92,6 +93,6 @@ public class DownloadCommand {
     }
 
     private static void notifyDirectMessageError(Message sentMessage, Message originalMessage) {
-        sentMessage.editMessage(MessageUtil.createEmbedBuilder(Color.RED, originalMessage.getAuthor(), "I was unable to send you a direct message.").build()).queue();
+        sentMessage.editMessage(MessageUtil.createEmbedBuilder(Color.RED, originalMessage.getAuthor(), ConfigUtil.Message.DOWNLOAD_COMMAND_PRIVATE_MESSAGE_FAILURE.toString()).build()).queue();
     }
 }
