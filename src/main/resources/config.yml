@@ -1,5 +1,6 @@
 # Configuration for DiscordSchematicUploader
 # You can reload the config by running /discordschematicuploader reloadconfig either in game or in the console
+# Please keep all config values on the same line as the key, otherwise the config will break when you update the plugin
 #
 # If you need help with setup or something isn't working, please join this Discord server: https://dinty1.github.io/plugins-discord
 #
