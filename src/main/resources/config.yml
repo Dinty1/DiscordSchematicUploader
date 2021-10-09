@@ -1,5 +1,6 @@
 # Configuration for DiscordSchematicUploader
 # You can reload the config by running /discordschematicuploader reloadconfig either in game or in the console
+# Please keep all config values on the same line as the key, otherwise the config will break when you update the plugin
 #
 # If you need help with setup or something isn't working, please join this Discord server: https://dinty1.github.io/plugins-discord
 #
@@ -16,24 +17,33 @@ upload-command: "!upload"
 #
 # Roles that are allowed to use the upload command. Role names and IDs are both acceptable.
 # If you wish to allow all users access to the command, set this option to ["@everyone"]
-upload-command-allowed-roles: [ "Builder", "Staff" ]
+upload-command-allowed-roles: ["Builder", "Staff"]
 #
 # Roles that are allowed to replace existing schematics when uploading one with the same name
-upload-command-allowed-to-overwrite: [ "Staff" ]
+upload-command-allowed-to-overwrite: ["Staff"]
 #
 # What the command for downloading a schematic should be (the format is <command> <schematic name>)
 download-command: "!download"
 #
 # Roles that are allowed to use the download command. Role names and IDs are both acceptable.
 # If you wish to allow all users access to the command, set this option to ["@everyone"]
-download-command-allowed-roles: [ "Builder", "Staff" ]
+download-command-allowed-roles: ["Builder", "Staff"]
 #
 # Whether a downloaded schematic should be sent as a private message to whoever ran the command instead of posted in the channel where the command was sent
 send-downloaded-schematic-privately: false
 #
+# Whether the channel whitelist is enabled (see below)
+channel-whitelist-enabled: false
+#
+# Channel whitelist: A list of channel IDs where commands can be run (commands in all other channels will be ignored)
+channel-whitelist: ["00000000000000000", "00000000000000000"]
+#
+# Whether the above option instead acts as a blacklist (commands will be accepted in all channels except the ones added)
+channel-whitelist-acts-as-blacklist: false
+#
 # MESSAGES
 # Modify these values to change the messages displayed when certain things happen with the plugin.
-# The maximum length for these values is 256 characters.s
+# The maximum length for these values is 256 characters.
 #
 # Upload Command
 #
