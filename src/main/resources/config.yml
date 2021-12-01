@@ -22,6 +22,9 @@ upload-command-allowed-roles: ["Builder", "Staff"]
 # Roles that are allowed to replace existing schematics when uploading one with the same name
 upload-command-allowed-to-overwrite: ["Staff"]
 #
+# Whether to delete the original message once the command has been processed
+upload-command-delete-original-message: false
+#
 # What the command for downloading a schematic should be (the format is <command> <schematic name>)
 download-command: "!download"
 #
