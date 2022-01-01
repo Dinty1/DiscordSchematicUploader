@@ -23,6 +23,7 @@
 package io.github.dinty1.discordschematicuploader.util;
 
 import github.scarsz.discordsrv.dependencies.jda.api.EmbedBuilder;
+import github.scarsz.discordsrv.dependencies.jda.api.entities.Message;
 import github.scarsz.discordsrv.dependencies.jda.api.entities.User;
 
 import java.awt.*;
@@ -37,5 +38,11 @@ public class MessageUtil {
         embedBuilder.setTitle(title);
 
         return embedBuilder;
+    }
+
+    public static boolean schematicAttached(Message message) {
+        if (message.getAttachments().size() == 0) return false;
+        final Message.Attachment attachment = message.getAttachments().get(0);
+        return attachment.getFileExtension() != null && (attachment.getFileExtension().equals("schem") || attachment.getFileExtension().equals("schematic"));
     }
 }

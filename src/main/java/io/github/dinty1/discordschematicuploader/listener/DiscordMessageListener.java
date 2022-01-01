@@ -82,7 +82,10 @@ public class DiscordMessageListener {
 
         Message message = event.getMessage();
 
-        if (!isValidCommand(event.getMessage().getContentRaw())) return;
+        if (!isValidCommand(event.getMessage().getContentRaw())) {
+            if (plugin.getUploadChannelManager().isUploadChannel(event.getChannel())) plugin.getUploadChannelManager().processMessageInUploadChannel(message, schematicFolder);
+            return;
+        }
 
         if (!channelIsAllowed(event.getChannel())) {
             plugin.getLogger().info(String.format("Ignoring command from %s in channel %s because the plugin is configured to not allow commands in this channel.",
