@@ -11,7 +11,7 @@ DiscordSchematicUploader allows users to upload and download WorldEdit schematic
 ## Installing
 DiscordSchematicUploader requires WorldEdit (or one of its forks) and DiscordSRV to function. You will need these before going any further.
 
-Installation itself is simple, simply drag and drop the plugin into your plugins folder. Once you have done this, restart your server.
+Installation itself is easy, simply drag and drop the plugin into your plugins folder. Once you have done this, restart your server.
 
 The plugin should create a config.yml file which you can edit to change some settings and messages for the plugin. One of the first things you will need to do is add to the list of allowed roles for the upload and download commands. The comments and examples in the config will explain how to do this.
 
@@ -23,3 +23,8 @@ The plugin should create a config.yml file which you can edit to change some set
 `!download <name>`: Download a schematic from the server.
 
 ![](https://i.imgur.com/hJ9GoD4.png)
+
+## Schematic Upload Channels
+This plugin allows you to designate channels where any schematic file that is uploaded will be automatically processed, regardless of whether a command is run.
+
+![image](https://user-images.githubusercontent.com/67452089/147857856-9e1c01af-9f89-4dec-bcf7-fa1d721fe6e2.png)

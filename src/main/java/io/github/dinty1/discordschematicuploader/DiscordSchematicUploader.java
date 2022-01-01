@@ -36,6 +36,7 @@ import java.io.IOException;
 public class DiscordSchematicUploader extends JavaPlugin {
 
     private boolean updateAvailable = false;
+    private final UploadChannelManager uploadChannelManager = new UploadChannelManager(this);
 
     public static DiscordSchematicUploader getPlugin() {
         return getPlugin(DiscordSchematicUploader.class);
@@ -43,6 +44,10 @@ public class DiscordSchematicUploader extends JavaPlugin {
 
     public boolean isUpdateAvailable() {
         return this.updateAvailable;
+    }
+
+    public UploadChannelManager getUploadChannelManager() {
+        return this.uploadChannelManager;
     }
 
     @Override

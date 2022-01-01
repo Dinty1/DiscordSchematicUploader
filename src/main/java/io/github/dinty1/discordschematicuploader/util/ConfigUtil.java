@@ -93,6 +93,10 @@ public class ConfigUtil {
         UPLOAD_COMMAND_SUCCESS("upload-command-success"),
         UPLOAD_COMMAND_ERROR("upload-command-error"),
 
+        UPLOAD_CHANNELS_SCHEMATIC_ALREADY_EXISTS("upload-channels-schematic-already-exists"),
+        UPLOAD_CHANNELS_CAN_OVERWRITE("upload-channels-can-overwrite"),
+        UPLOAD_CHANNELS_UPLOAD_ERROR("upload-channels-upload-error"),
+
         DOWNLOAD_COMMAND_NO_PERMISSION("download-command-no-permission"),
         DOWNLOAD_COMMAND_NO_NAME_SPECIFIED("download-command-no-name-specified"),
         DOWNLOAD_COMMAND_SCHEMATIC_NOT_FOUND("download-command-schematic-not-found"),

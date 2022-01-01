@@ -57,6 +57,7 @@ public class UploadCommand {
                     } else {
                         final String overwriteMessage = allowedToOverwrite ? " " + ConfigUtil.Message.UPLOAD_COMMAND_CAN_OVERWRITE : "";
                         sentMessage.editMessage(MessageUtil.createEmbedBuilder(Color.RED, message.getAuthor(), ConfigUtil.Message.UPLOAD_COMMAND_SCHEMATIC_ALREADY_EXISTS.toString(attachment.getFileName()) + overwriteMessage).build()).queue();
+                        if (plugin.getConfig().getBoolean("upload-command-delete-original-message")) message.delete().queue();
                         return;
                     }
                 }
@@ -70,6 +71,7 @@ public class UploadCommand {
                     sentMessage.editMessage(MessageUtil.createEmbedBuilder(Color.RED, message.getAuthor(), ConfigUtil.Message.UPLOAD_COMMAND_ERROR.toString()).build()).queue();
                 }
 
+                if (plugin.getConfig().getBoolean("upload-command-delete-original-message")) message.delete().queue();
             });
         }
     }
