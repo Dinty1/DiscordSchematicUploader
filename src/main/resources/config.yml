@@ -12,6 +12,8 @@ config-version: ${project.version}
 # Whether the plugin should check for new available versions and notify admins that one is available
 update-check: true
 #
+# UPLOAD COMMAND
+#
 # What the command for uploading a schematic should be
 upload-command: "!upload"
 #
@@ -24,6 +26,8 @@ upload-command-allowed-to-overwrite: ["Staff"]
 #
 # Whether to delete the original message (the command and attached file) once the upload command has been processed
 upload-command-delete-original-message: false
+#
+# DOWNLOAD COMMAND
 #
 # What the command for downloading a schematic should be (the format is <command> <schematic name>)
 download-command: "!download"
