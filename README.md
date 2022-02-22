@@ -8,6 +8,8 @@
 
 DiscordSchematicUploader allows users to upload and download WorldEdit schematics from Discord using DiscordSRV.
 
+**IMPORTANT NOTICE: If you are using DiscordSchematicUploader 1.6.0 or earlier, update immediately! Later versions contain a patch for a potential exploit.**
+
 ## Installing
 DiscordSchematicUploader requires WorldEdit (or one of its forks) and DiscordSRV to function. You will need these before going any further.
 

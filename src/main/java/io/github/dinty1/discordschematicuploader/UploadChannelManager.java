@@ -28,9 +28,14 @@ import github.scarsz.discordsrv.dependencies.jda.api.entities.TextChannel;
 import io.github.dinty1.discordschematicuploader.util.ConfigUtil;
 import io.github.dinty1.discordschematicuploader.util.MessageUtil;
 import io.github.dinty1.discordschematicuploader.util.RoleUtil;
+import net.querz.nbt.io.NBTUtil;
+import net.querz.nbt.io.NamedTag;
+import net.querz.nbt.tag.CompoundTag;
 
 import java.awt.*;
+import java.io.EOFException;
 import java.io.File;
+import java.io.IOException;
 
 public class UploadChannelManager {
 
@@ -61,7 +66,13 @@ public class UploadChannelManager {
             return;
         }
         try {
-            attachment.downloadToFile(downloadedSchematic);
+            final File file = attachment.downloadToFile(downloadedSchematic).get();
+            try { // Make sure that the file is valid NBT; Very hacky but it works, will find a more elegant way later
+                NamedTag nbt = NBTUtil.read(file);
+            } catch (IOException e) {
+                file.delete();
+                return;
+            }
             plugin.getLogger().info(String.format("User %s (%s) uploaded schematic %s.", message.getAuthor().getAsTag(), message.getAuthor().getId(), attachment.getFileName()));
             message.addReaction("\u2705").queue();
         } catch (Exception e) {
