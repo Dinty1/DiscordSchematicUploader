@@ -68,6 +68,7 @@ public class UploadChannelManager {
                 NamedTag nbt = NBTUtil.read(file);
             } catch (IOException e) {
                 file.delete();
+                if (plugin.getConfig().getBoolean("upload-channels-delete-original-message")) message.delete().queue();
                 return;
             }
             plugin.getLogger().info(String.format("User %s (%s) uploaded schematic %s.", message.getAuthor().getAsTag(), message.getAuthor().getId(), attachment.getFileName()));
