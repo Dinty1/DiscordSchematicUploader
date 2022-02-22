@@ -22,7 +22,6 @@
 
 package io.github.dinty1.discordschematicuploader;
 
-import github.scarsz.discordsrv.dependencies.emoji.Emoji;
 import github.scarsz.discordsrv.dependencies.jda.api.entities.Message;
 import github.scarsz.discordsrv.dependencies.jda.api.entities.TextChannel;
 import io.github.dinty1.discordschematicuploader.util.ConfigUtil;
@@ -30,10 +29,8 @@ import io.github.dinty1.discordschematicuploader.util.MessageUtil;
 import io.github.dinty1.discordschematicuploader.util.RoleUtil;
 import net.querz.nbt.io.NBTUtil;
 import net.querz.nbt.io.NamedTag;
-import net.querz.nbt.tag.CompoundTag;
 
 import java.awt.*;
-import java.io.EOFException;
 import java.io.File;
 import java.io.IOException;
 

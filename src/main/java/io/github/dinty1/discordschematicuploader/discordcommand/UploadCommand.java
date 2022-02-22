@@ -32,7 +32,6 @@ import net.querz.nbt.io.NBTUtil;
 import net.querz.nbt.io.NamedTag;
 
 import java.awt.*;
-import java.io.EOFException;
 import java.io.File;
 import java.io.IOException;
 
