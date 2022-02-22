@@ -11,7 +11,7 @@ DiscordSchematicUploader allows users to upload and download WorldEdit schematic
 **IMPORTANT NOTICE: If you are using DiscordSchematicUploader 1.6.0 or earlier, update immediately! Later versions contain a patch for a potential exploit.**
 
 ## Installing
-DiscordSchematicUploader requires WorldEdit (or one of its forks) and DiscordSRV to function. You will need these before going any further.
+DiscordSchematicUploader requires [WorldEdit](https://enginehub.org/worldedit/) (or one of its forks) and [DiscordSRV](https://www.spigotmc.org/resources/discordsrv.18494/) to function. You will need these before going any further.
 
 Installation itself is easy, simply drag and drop the plugin into your plugins folder. Once you have done this, restart your server.
 
