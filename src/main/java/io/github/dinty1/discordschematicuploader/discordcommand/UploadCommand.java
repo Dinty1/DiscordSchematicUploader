@@ -28,9 +28,12 @@ import io.github.dinty1.discordschematicuploader.DiscordSchematicUploader;
 import io.github.dinty1.discordschematicuploader.util.ConfigUtil;
 import io.github.dinty1.discordschematicuploader.util.MessageUtil;
 import io.github.dinty1.discordschematicuploader.util.RoleUtil;
+import net.querz.nbt.io.NBTUtil;
+import net.querz.nbt.io.NamedTag;
 
 import java.awt.*;
 import java.io.File;
+import java.io.IOException;
 
 public class UploadCommand {
 
@@ -62,7 +65,15 @@ public class UploadCommand {
                     }
                 }
                 try {
-                    attachment.downloadToFile(downloadedSchematic);
+                    final File file = attachment.downloadToFile(downloadedSchematic).get();
+                    try { // Make sure that the file is valid NBT; Very hacky but it works, will find a more elegant way later
+                        NamedTag nbt = NBTUtil.read(file);
+                    } catch (IOException e) {
+                        sentMessage.editMessage(MessageUtil.createEmbedBuilder(Color.RED, message.getAuthor(), ConfigUtil.Message.UPLOAD_COMMAND_INVALID_SCHEMATIC_FILE.toString()).build()).queue();
+                        file.delete();
+                        if (plugin.getConfig().getBoolean("upload-command-delete-original-message")) message.delete().queue();
+                        return;
+                    }
                     sentMessage.editMessage(MessageUtil.createEmbedBuilder(Color.GREEN, message.getAuthor(), ConfigUtil.Message.UPLOAD_COMMAND_SUCCESS.toString(attachment.getFileName())).build()).queue();
                     plugin.getLogger().info(String.format("User %s (%s) uploaded schematic %s.", message.getAuthor().getAsTag(), message.getAuthor().getId(), attachment.getFileName()));
                 } catch (Exception e) {
