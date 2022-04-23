@@ -106,7 +106,6 @@ public class ConfigUtil {
                 .replace("%minecraftusername%", player == null ? "" : player.getName())
                 .replace("%minecraftuuid%", uuid == null ? "" : uuid.toString())
                 + "." + extension;
-
     }
 
     public enum Message {
