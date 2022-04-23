@@ -20,9 +20,9 @@ update-check: true
 #   %minecraftusername%:  Name of the Minecraft account linked to the Discord user, will be blank if not linked
 #   %minecraftuuid%:      UUID of the Minecraft account linked to the Discord user, will be blank if not linked
 schematic-name-format: "%filename%"
-#
+# ======================================================================================================================
 # UPLOAD COMMAND - Settings for the command to upload a schematic
-#
+# ======================================================================================================================
 # What the command for uploading a schematic should be
 upload-command: "!upload"
 #
@@ -35,9 +35,9 @@ upload-command-allowed-to-overwrite: ["Staff"]
 #
 # Whether to delete the original message (the command and attached file) once the upload command has been processed
 upload-command-delete-original-message: false
-#
+# ======================================================================================================================
 # UPLOAD CHANNELS - Settings for channels where any schematic file sent will automatically be uploaded, regardless of message content
-#
+# ======================================================================================================================
 upload-channels: ["00000000000000000", "00000000000000000"]
 #
 # Roles that are allowed to upload schematics in this way (anyone without one of these roles will be ignored). Role names and IDs are both acceptable.
@@ -46,9 +46,9 @@ upload-channels-allowed-roles: ["Builder", "Staff"]
 #
 # Whether to delete messages that contain schematic files once they have been processed
 upload-channels-delete-original-message: false
-#
+# ======================================================================================================================
 # DOWNLOAD COMMAND - Settings for the command to download a schematic
-#
+# ======================================================================================================================
 # What the command for downloading a schematic should be (the format is <command> <schematic name>)
 download-command: "!download"
 #
@@ -61,21 +61,21 @@ send-downloaded-schematic-privately: false
 #
 # Whether the channel whitelist is enabled (see below)
 channel-whitelist-enabled: false
-#
+# ======================================================================================================================
 # CHANNEL WHITELIST - Settings for whitelisting/blacklisting certain channels for commands
-#
+# ======================================================================================================================
 # A list of channel IDs where commands can be run (commands in all other channels will be ignored)
 channel-whitelist: ["00000000000000000", "00000000000000000"]
 #
 # Whether the above option instead acts as a blacklist (commands will be accepted in all channels except the ones added)
 channel-whitelist-acts-as-blacklist: false
-#
+# ======================================================================================================================
 # MESSAGES
 # Modify these values to change the messages displayed when certain things happen with the plugin.
 # The maximum length for these values is 256 characters.
 #
 # Upload Command
-#
+# ======================================================================================================================
 # Shown when a user with no permission attempts to use the upload command
 upload-command-no-permission: "You do not have permission to execute this command."
 # Shown when a user uses the upload command without attaching a file
@@ -92,18 +92,18 @@ upload-command-can-overwrite: "You can replace the old file by adding `-o` to yo
 upload-command-success: "Schematic successfully saved as `%schematic%`."
 # Shown when an unknown error occurs while loading the schematic (hopefully you won't have to see this)
 upload-command-error: "An error occurred when trying to save the schematic. Please check the server console for more details."
-#
+# ======================================================================================================================
 # Upload Channels
-#
+# ======================================================================================================================
 # Shown when a schematic by the name of the one being uploaded already exists on the server
 upload-channels-schematic-already-exists: "`%schematic%` already exists on the server."
 # Added to the end of the previous message if the user has permission to overwrite schematics
 upload-channels-can-overwrite: "You can replace the old file by sending `-o` after the upload command with the schematic attached"
 # Shown when an unknown error occurs while loading the schematic (hopefully you won't have to see this)
 upload-channels-upload-error: "An error occurred when trying to save the schematic. Please check the server console for more details."
-#
+# ======================================================================================================================
 # Download Command
-#
+# ======================================================================================================================
 # Shown when a user with no permission attempts to use the download command
 download-command-no-permission: "You do not have permission to execute this command."
 # Shown when a user runs the download command without specifying a schematic name
