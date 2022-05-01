@@ -13,12 +13,14 @@ config-version: ${project.version}
 update-check: true
 #
 # The naming scheme for schematics that are uploaded. Available placeholders:
-#   %filename%:           Filename of the schematic that is being uploaded
-#   %discordname%:        Displayname of the Discord user that is uploading the file
-#   %discordusername%:    Username of the Discord user that is uploading the file
-#   %discorduserdiscrim%: Discriminator (the bit after the # in Dinty#4988)
-#   %minecraftusername%:  Name of the Minecraft account linked to the Discord user, will be blank if not linked
-#   %minecraftuuid%:      UUID of the Minecraft account linked to the Discord user, will be blank if not linked
+#   %filename%:                   Filename of the schematic that is being uploaded
+#   %discordname%:                Displayname of the Discord user that is uploading the file
+#   %discordusername%:            Username of the Discord user that is uploading the file
+#   %discorduserdiscrim%:         Discriminator (the bit after the # in Dinty#4988)
+#   %minecraftusername%:          Name of the Minecraft account linked to the Discord user, will be blank if not linked
+#   %minecraftuuid%:              UUID of the Minecraft account linked to the Discord user, will be blank if not linked
+#   %minecraftordiscordname%:     Minecraft name if linked, otherwise Discord displayname
+#   %minecraftordiscordusername%: Minecraft name if linked, otherwise Discord username
 schematic-name-format: "%filename%"
 # ======================================================================================================================
 # UPLOAD COMMAND - Settings for the command to upload a schematic

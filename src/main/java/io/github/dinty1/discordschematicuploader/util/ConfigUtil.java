@@ -105,6 +105,8 @@ public class ConfigUtil {
                 .replace("%discorduserdiscrim%", member.getUser().getDiscriminator())
                 .replace("%minecraftusername%", player == null ? "" : player.getName())
                 .replace("%minecraftuuid%", uuid == null ? "" : uuid.toString())
+                .replace("%minecraftordiscordname%", player == null ? member.getEffectiveName() : player.getName())
+                .replace("%minecraftordiscordusername%", player == null ? member.getUser().getName() : player.getName())
                 + "." + extension;
     }
 
