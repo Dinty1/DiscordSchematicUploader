@@ -26,6 +26,7 @@ import github.scarsz.discordsrv.api.events.DiscordGuildMessageReceivedEvent;
 import github.scarsz.discordsrv.dependencies.jda.api.entities.Message;
 import io.github.dinty1.discordschematicuploader.DiscordSchematicUploader;
 import io.github.dinty1.discordschematicuploader.util.ConfigUtil;
+import io.github.dinty1.discordschematicuploader.util.FileUtil;
 import io.github.dinty1.discordschematicuploader.util.MessageUtil;
 import io.github.dinty1.discordschematicuploader.util.RoleUtil;
 import net.querz.nbt.io.NBTUtil;
@@ -51,15 +52,17 @@ public class UploadCommand {
         } else { // Seems legit
             message.getChannel().sendMessage(MessageUtil.createEmbedBuilder(Color.GRAY, message.getAuthor(), ConfigUtil.Message.UPLOAD_COMMAND_ATTEMPTING_SCHEMATIC_SAVE.toString()).build()).queue(sentMessage -> {
 
+                final String fileName = ConfigUtil.formatSchematicName(attachment, event.getMember());
+
                 // Make sure the schematic doesn't already exist
-                final File downloadedSchematic = new File(schematicFolder, attachment.getFileName());
+                final File downloadedSchematic = new File(schematicFolder, fileName);
                 final boolean allowedToOverwrite = RoleUtil.hasAllowedRole(event.getMember(), plugin.getConfig().getStringList("upload-command-allowed-to-overwrite"));
                 if (downloadedSchematic.exists()) {
                     if (message.getContentRaw().substring(plugin.getConfig().getString("upload-command").length()).contains("-o") && allowedToOverwrite) {
                         downloadedSchematic.delete();
                     } else {
                         final String overwriteMessage = allowedToOverwrite ? " " + ConfigUtil.Message.UPLOAD_COMMAND_CAN_OVERWRITE : "";
-                        sentMessage.editMessage(MessageUtil.createEmbedBuilder(Color.RED, message.getAuthor(), ConfigUtil.Message.UPLOAD_COMMAND_SCHEMATIC_ALREADY_EXISTS.toString(attachment.getFileName()) + overwriteMessage).build()).queue();
+                        sentMessage.editMessage(MessageUtil.createEmbedBuilder(Color.RED, message.getAuthor(), ConfigUtil.Message.UPLOAD_COMMAND_SCHEMATIC_ALREADY_EXISTS.toString(fileName) + overwriteMessage).build()).queue();
                         if (plugin.getConfig().getBoolean("upload-command-delete-original-message")) message.delete().queue();
                         return;
                     }
@@ -74,8 +77,8 @@ public class UploadCommand {
                         if (plugin.getConfig().getBoolean("upload-command-delete-original-message")) message.delete().queue();
                         return;
                     }
-                    sentMessage.editMessage(MessageUtil.createEmbedBuilder(Color.GREEN, message.getAuthor(), ConfigUtil.Message.UPLOAD_COMMAND_SUCCESS.toString(attachment.getFileName())).build()).queue();
-                    plugin.getLogger().info(String.format("User %s (%s) uploaded schematic %s.", message.getAuthor().getAsTag(), message.getAuthor().getId(), attachment.getFileName()));
+                    sentMessage.editMessage(MessageUtil.createEmbedBuilder(Color.GREEN, message.getAuthor(), ConfigUtil.Message.UPLOAD_COMMAND_SUCCESS.toString(fileName)).build()).queue();
+                    plugin.getLogger().info(String.format("User %s (%s) uploaded schematic %s.", message.getAuthor().getAsTag(), message.getAuthor().getId(), fileName));
                 } catch (Exception e) {
                     plugin.getLogger().severe(e.getMessage());
                     e.printStackTrace();

@@ -47,18 +47,21 @@ public class UploadChannelManager {
     }
 
     public void processMessageInUploadChannel(Message message, File schematicFolder) {
+        if (message.getMember() == null) return; // Ignore webhooks (I think?)
         if (!MessageUtil.schematicAttached(message)) return;
         if (!RoleUtil.hasAllowedRole(message.getMember(), plugin.getConfig().getStringList("upload-channels-allowed-roles")))
             return;
 
         final Message.Attachment attachment = message.getAttachments().get(0);
 
+        final String fileName = ConfigUtil.formatSchematicName(attachment, message.getMember());
+
         // Make sure the schematic doesn't already exist
-        final File downloadedSchematic = new File(schematicFolder, attachment.getFileName());
+        final File downloadedSchematic = new File(schematicFolder, fileName);
         final boolean allowedToOverwrite = RoleUtil.hasAllowedRole(message.getMember(), plugin.getConfig().getStringList("upload-command-allowed-to-overwrite"));
         if (downloadedSchematic.exists()) {
             final String overwriteMessage = allowedToOverwrite ? " " + ConfigUtil.Message.UPLOAD_CHANNELS_CAN_OVERWRITE : "";
-            message.getChannel().sendMessage(MessageUtil.createEmbedBuilder(Color.RED, message.getAuthor(), ConfigUtil.Message.UPLOAD_CHANNELS_SCHEMATIC_ALREADY_EXISTS.toString(attachment.getFileName()) + overwriteMessage).build()).queue();
+            message.getChannel().sendMessage(MessageUtil.createEmbedBuilder(Color.RED, message.getAuthor(), ConfigUtil.Message.UPLOAD_CHANNELS_SCHEMATIC_ALREADY_EXISTS.toString(fileName) + overwriteMessage).build()).queue();
             if (plugin.getConfig().getBoolean("upload-channels-delete-original-message")) message.delete().queue();
             return;
         }
@@ -71,7 +74,7 @@ public class UploadChannelManager {
                 if (plugin.getConfig().getBoolean("upload-channels-delete-original-message")) message.delete().queue();
                 return;
             }
-            plugin.getLogger().info(String.format("User %s (%s) uploaded schematic %s.", message.getAuthor().getAsTag(), message.getAuthor().getId(), attachment.getFileName()));
+            plugin.getLogger().info(String.format("User %s (%s) uploaded schematic %s.", message.getAuthor().getAsTag(), message.getAuthor().getId(), fileName));
             message.addReaction("\u2705").queue();
         } catch (Exception e) {
             plugin.getLogger().severe(e.getMessage());

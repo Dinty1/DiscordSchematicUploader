@@ -22,9 +22,14 @@
 
 package io.github.dinty1.discordschematicuploader.util;
 
+import github.scarsz.discordsrv.DiscordSRV;
 import io.github.dinty1.discordschematicuploader.DiscordSchematicUploader;
+import github.scarsz.discordsrv.dependencies.jda.api.entities.Member;
+import org.bukkit.Bukkit;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.plugin.Plugin;
+import org.jetbrains.annotations.Nullable;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -81,6 +86,28 @@ public class ConfigUtil {
 
             plugin.reloadConfig();
         }
+    }
+
+    public static String formatSchematicName(github.scarsz.discordsrv.dependencies.jda.api.entities.Message.Attachment attachment, Member member) {
+        @Nullable OfflinePlayer player = null;
+        final String filename = FileUtil.removeFileExtension(attachment.getFileName());
+        final String extension = attachment.getFileExtension();
+
+        // Try find a linked player
+        final @Nullable UUID uuid = DiscordSRV.getPlugin().getAccountLinkManager().getUuid(member.getId());
+        if (uuid != null && Bukkit.getServer().getOfflinePlayer(uuid).getName() != null) {
+            player = Bukkit.getServer().getOfflinePlayer(uuid);
+        }
+        return DiscordSchematicUploader.getPlugin().getConfig().getString("schematic-name-format")
+                .replace("%filename%", filename)
+                .replace("%discordname%", member.getEffectiveName())
+                .replace("%discordusername%", member.getUser().getName())
+                .replace("%discorduserdiscrim%", member.getUser().getDiscriminator())
+                .replace("%minecraftusername%", player == null ? "" : player.getName())
+                .replace("%minecraftuuid%", uuid == null ? "" : uuid.toString())
+                .replace("%minecraftordiscordname%", player == null ? member.getEffectiveName() : player.getName())
+                .replace("%minecraftordiscordusername%", player == null ? member.getUser().getName() : player.getName())
+                + "." + extension;
     }
 
     public enum Message {
