@@ -6,7 +6,7 @@
 
     <groupId>io.github.dinty1</groupId>
     <artifactId>DiscordSchematicUploader</artifactId>
-    <version>1.7.12345231454</version>
+    <version>1.7.0</version>
 
     <properties>
         <maven.compiler.source>8</maven.compiler.source>
