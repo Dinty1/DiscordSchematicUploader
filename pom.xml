@@ -38,7 +38,7 @@
         <dependency>
             <groupId>com.discordsrv</groupId>
             <artifactId>discordsrv</artifactId>
-            <version>1.22.0</version>
+            <version>1.25.1</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
