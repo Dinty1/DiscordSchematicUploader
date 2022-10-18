@@ -8,12 +8,12 @@
  * it under the terms of the GNU General Public License as
  * published by the Free Software Foundation, either version 3 of the
  * License, or (at your option) any later version.
- * 
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public
  * License along with this program.  If not, see
  * <http://www.gnu.org/licenses/gpl-3.0.html>.
@@ -52,13 +52,13 @@ public class DiscordSchematicUploader extends JavaPlugin {
 
     @Override
     public void onEnable() {
-        int METRICS_PLUGIN_ID = 11934;
-        Metrics metrics = new Metrics(this, METRICS_PLUGIN_ID);
+        final int METRICS_PLUGIN_ID = 11934;
+        final Metrics metrics = new Metrics(this, METRICS_PLUGIN_ID);
 
         saveDefaultConfig();
         try {
             ConfigUtil.migrateIfNeeded(getConfig(), this);
-        } catch (IOException e) {
+        } catch (final IOException e) {
             getLogger().severe("An error occurred while attempting to migrate the configuration: " + e.getMessage());
             e.printStackTrace();
         }

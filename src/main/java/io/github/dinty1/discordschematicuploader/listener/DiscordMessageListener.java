@@ -42,17 +42,17 @@ public class DiscordMessageListener {
     private final String downloadCommand;
     private final DiscordSchematicUploader plugin;
 
-    public DiscordMessageListener(DiscordSchematicUploader plugin) {
+    public DiscordMessageListener(final DiscordSchematicUploader plugin) {
         this.uploadCommand = Objects.requireNonNull(plugin.getConfig().getString("upload-command"));
         this.downloadCommand = Objects.requireNonNull(plugin.getConfig().getString("download-command"));
         this.plugin = plugin;
     }
 
-    private boolean isValidCommand(String message) {
+    private boolean isValidCommand(final String message) {
         return message.startsWith(uploadCommand) || message.startsWith(downloadCommand);
     }
 
-    private boolean channelIsAllowed(TextChannel channel) {
+    private boolean channelIsAllowed(final TextChannel channel) {
         if (!plugin.getConfig().getBoolean("channel-whitelist-enabled")) return true;
 
         final List<String> channelList = plugin.getConfig().getStringList("channel-whitelist");
@@ -66,32 +66,31 @@ public class DiscordMessageListener {
 
     @Subscribe
     @SuppressWarnings("unused")
-    public void onDiscordMessageInLinkedChannel(DiscordGuildMessagePreProcessEvent event) {
+    public void onDiscordMessageInLinkedChannel(final DiscordGuildMessagePreProcessEvent event) {
         if (isValidCommand(event.getMessage().getContentRaw()) && channelIsAllowed(event.getChannel()))
             event.setCancelled(true);
     }
 
     @Subscribe
     @SuppressWarnings("unused")
-    public void onDiscordMessage(DiscordGuildMessageReceivedEvent event) {
+    public void onDiscordMessage(final DiscordGuildMessageReceivedEvent event) {
         // None of this sneaky adding the bot to another server to bypass allowed role checks shit thank you very much
         if (event.getGuild() != DiscordSRV.getPlugin().getMainGuild()) return;
 
         final File worldeditDataFolder = Objects.requireNonNull(Bukkit.getServer().getPluginManager().getPlugin("WorldEdit")).getDataFolder();
+        final File schematicBrushReturnFolder = Objects.requireNonNull(Bukkit.getServer().getPluginManager().getPlugin("Sche")).getDataFolder();
         final File schematicFolder = new File(worldeditDataFolder, "schematics");
 
-        Message message = event.getMessage();
+        final Message message = event.getMessage();
 
         if (!isValidCommand(event.getMessage().getContentRaw())) {
-            if (plugin.getUploadChannelManager().isUploadChannel(event.getChannel())) plugin.getUploadChannelManager().processMessageInUploadChannel(message, schematicFolder);
+            if (plugin.getUploadChannelManager().isUploadChannel(event.getChannel()))
+                plugin.getUploadChannelManager().processMessageInUploadChannel(message, schematicFolder);
             return;
         }
 
         if (!channelIsAllowed(event.getChannel())) {
-            plugin.getLogger().info(String.format("Ignoring command from %s in channel %s because the plugin is configured to not allow commands in this channel.",
-                    event.getAuthor().getAsTag(),
-                    event.getChannel().getName()
-            ));
+            plugin.getLogger().info(String.format("Ignoring command from %s in channel %s because the plugin is configured to not allow commands in this channel.", event.getAuthor().getAsTag(), event.getChannel().getName()));
             return;
         }
 

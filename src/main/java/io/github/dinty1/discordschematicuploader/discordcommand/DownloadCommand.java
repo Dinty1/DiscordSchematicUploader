@@ -38,7 +38,7 @@ public class DownloadCommand {
     private static final DiscordSchematicUploader plugin = DiscordSchematicUploader.getPlugin();
 
     // I hate myself for making this static....
-    public static void execute(DiscordGuildMessageReceivedEvent event, File schematicFolder) {
+    public static void execute(final DiscordGuildMessageReceivedEvent event, final File schematicFolder) {
         final Message message = event.getMessage();
         final String downloadCommand = Objects.requireNonNull(DiscordSchematicUploader.getPlugin().getConfig().getString("download-command"));
 
@@ -64,7 +64,7 @@ public class DownloadCommand {
                 }
             }
 
-            String finalSchematicFileExtension = schematicFileExtension;
+            final String finalSchematicFileExtension = schematicFileExtension;
             message.getChannel().sendMessage(MessageUtil.createEmbedBuilder(Color.GRAY, message.getAuthor(), ConfigUtil.Message.DOWNLOAD_COMMAND_ATTEMPTING_DOWNLOAD.toString(args[0] + schematicFileExtension)).build()).queue(sentMessage -> {
                 final File schematicToDownload = new File(schematicFolder, args[0] + finalSchematicFileExtension);
                 try {
@@ -80,9 +80,9 @@ public class DownloadCommand {
                         });
 
                     }
-                } catch (IllegalArgumentException e) {
+                } catch (final IllegalArgumentException e) {
                     sentMessage.editMessage(MessageUtil.createEmbedBuilder(Color.RED, message.getAuthor(), ConfigUtil.Message.DOWNLOAD_COMMAND_FAILED_TO_UPLOAD_TO_DISCORD.toString(args[0] + finalSchematicFileExtension)).build()).queue();
-                } catch (Exception e) {
+                } catch (final Exception e) {
                     plugin.getLogger().severe(e.getMessage());
                     e.printStackTrace();
                     sentMessage.editMessage(MessageUtil.createEmbedBuilder(Color.RED, message.getAuthor(), ConfigUtil.Message.DOWNLOAD_COMMAND_OTHER_ERROR.toString(args[0] + finalSchematicFileExtension)).build()).queue();
@@ -92,7 +92,7 @@ public class DownloadCommand {
         }
     }
 
-    private static void notifyDirectMessageError(Message sentMessage, Message originalMessage) {
+    private static void notifyDirectMessageError(final Message sentMessage, final Message originalMessage) {
         sentMessage.editMessage(MessageUtil.createEmbedBuilder(Color.RED, originalMessage.getAuthor(), ConfigUtil.Message.DOWNLOAD_COMMAND_PRIVATE_MESSAGE_FAILURE.toString()).build()).queue();
     }
 }
