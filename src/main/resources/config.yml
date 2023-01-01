@@ -22,6 +22,12 @@ update-check: true
 #   %minecraftordiscordname%:     Minecraft name if linked, otherwise Discord displayname
 #   %minecraftordiscordusername%: Minecraft name if linked, otherwise Discord username
 schematic-name-format: "%filename%"
+#
+# A list of phrases that, if present in a schematic file, should prevent upload. These could be anything of the following:
+# - Blocks like "minecraft:command_block" (See https://mcreator.net/wiki/minecraft-block-and-item-list-registry-and-code-names)
+# - Entities like "minecraft:creeper" (See https://www.digminecraft.com/lists/entity_list_pc.php)
+# - Sign messages, commands in command blocks, custom entity names, etc
+schematic-upload-phrase-blacklist: ["minecraft:command_block"]
 # ======================================================================================================================
 # UPLOAD COMMAND - Settings for the command to upload a schematic
 # ======================================================================================================================
@@ -84,6 +90,8 @@ upload-command-no-permission: "You do not have permission to execute this comman
 upload-command-no-attachment: "You need to attach a file to upload."
 # Shown when a user attaches a non-schematic file with the upload command
 upload-command-invalid-schematic-file: "That's not a valid schematic file."
+# Shown when a schematic contains any phrases specified in schematic-upload-phrase-blacklist:
+upload-command-contains-blacklisted-phrases: "This schematic contains blacklisted blocks/entities/commands/messages."
 # Shown when a schematic is being loaded onto the server
 upload-command-attempting-schematic-save: "Attempting to save schematic..."
 # Shown when a schematic by the name of the one being uploaded already exists on the server

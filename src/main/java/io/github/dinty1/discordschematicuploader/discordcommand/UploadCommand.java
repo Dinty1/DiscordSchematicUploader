@@ -25,10 +25,7 @@ package io.github.dinty1.discordschematicuploader.discordcommand;
 import github.scarsz.discordsrv.api.events.DiscordGuildMessageReceivedEvent;
 import github.scarsz.discordsrv.dependencies.jda.api.entities.Message;
 import io.github.dinty1.discordschematicuploader.DiscordSchematicUploader;
-import io.github.dinty1.discordschematicuploader.util.ConfigUtil;
-import io.github.dinty1.discordschematicuploader.util.FileUtil;
-import io.github.dinty1.discordschematicuploader.util.MessageUtil;
-import io.github.dinty1.discordschematicuploader.util.RoleUtil;
+import io.github.dinty1.discordschematicuploader.util.*;
 import net.querz.nbt.io.NBTUtil;
 import net.querz.nbt.io.NamedTag;
 
@@ -69,14 +66,24 @@ public class UploadCommand {
                 }
                 try {
                     final File file = attachment.downloadToFile(downloadedSchematic).get();
-                    try { // Make sure that the file is valid NBT; Very hacky but it works, will find a more elegant way later
+                    boolean cancelUpload = false;
+                    try {
                         NamedTag nbt = NBTUtil.read(file);
+                        if (SchematicAuditUtil.containsBlockedPhrase(nbt)) {
+                            sentMessage.editMessage(MessageUtil.createEmbedBuilder(Color.RED, message.getAuthor(), ConfigUtil.Message.UPLOAD_COMMAND_CONTAINS_BLACKLISTED_PHRASES.toString()).build()).queue();
+                            cancelUpload = true;
+                        }
                     } catch (IOException e) {
                         sentMessage.editMessage(MessageUtil.createEmbedBuilder(Color.RED, message.getAuthor(), ConfigUtil.Message.UPLOAD_COMMAND_INVALID_SCHEMATIC_FILE.toString()).build()).queue();
+                        cancelUpload = true;
+                    }
+
+                    if (cancelUpload) {
                         file.delete();
                         if (plugin.getConfig().getBoolean("upload-command-delete-original-message")) message.delete().queue();
                         return;
                     }
+
                     sentMessage.editMessage(MessageUtil.createEmbedBuilder(Color.GREEN, message.getAuthor(), ConfigUtil.Message.UPLOAD_COMMAND_SUCCESS.toString(fileName)).build()).queue();
                     plugin.getLogger().info(String.format("User %s (%s) uploaded schematic %s.", message.getAuthor().getAsTag(), message.getAuthor().getId(), fileName));
                 } catch (Exception e) {

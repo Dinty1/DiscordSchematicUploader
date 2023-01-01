@@ -27,6 +27,7 @@ import github.scarsz.discordsrv.dependencies.jda.api.entities.TextChannel;
 import io.github.dinty1.discordschematicuploader.util.ConfigUtil;
 import io.github.dinty1.discordschematicuploader.util.MessageUtil;
 import io.github.dinty1.discordschematicuploader.util.RoleUtil;
+import io.github.dinty1.discordschematicuploader.util.SchematicAuditUtil;
 import net.querz.nbt.io.NBTUtil;
 import net.querz.nbt.io.NamedTag;
 
@@ -69,9 +70,11 @@ public class UploadChannelManager {
             final File file = attachment.downloadToFile(downloadedSchematic).get();
             try { // Make sure that the file is valid NBT; Very hacky but it works, will find a more elegant way later
                 NamedTag nbt = NBTUtil.read(file);
+                if (SchematicAuditUtil.containsBlockedPhrase(nbt)) throw new IOException(); // I really don't care enough to do this a better way
             } catch (IOException e) {
                 file.delete();
                 if (plugin.getConfig().getBoolean("upload-channels-delete-original-message")) message.delete().queue();
+                else message.addReaction("\u274C").queue();
                 return;
             }
             plugin.getLogger().info(String.format("User %s (%s) uploaded schematic %s.", message.getAuthor().getAsTag(), message.getAuthor().getId(), fileName));
