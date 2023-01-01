@@ -52,9 +52,8 @@ public class ConfigUtil {
                 final String line = oldConfigReader.nextLine();
                 if (line.startsWith("#")) continue;
                 final String[] split = line.split(":");
-                if (split.length != 2) continue;
-                oldConfigMap.put(split[0], split[1].trim());
-
+                if (split.length == 1) continue;
+                oldConfigMap.put(split[0], String.join(":", Arrays.copyOfRange(split, 1, split.length)).trim());
             }
             oldConfigReader.close();
 
@@ -72,10 +71,10 @@ public class ConfigUtil {
                 newConfigLines.add(line);
                 if (line.startsWith("config-version") || line.startsWith("#")) continue;
                 final String[] split = line.split(":");
-                if (split.length != 2) continue;
+                if (split.length == 1) continue;
                 if (oldConfigMap.containsKey(split[0])) {
                     split[1] = oldConfigMap.get(split[0]);
-                    newConfigLines.set(newConfigLines.size() - 1, String.join(": ", split));
+                    newConfigLines.set(newConfigLines.size() - 1, split[0] + ": " + split[1]);
                     plugin.getLogger().info("Migrated config option " + split[0] + " with value " + split[1]);
                 }
             }
