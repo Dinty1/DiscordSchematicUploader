@@ -95,7 +95,7 @@
                     <relocations>
                         <relocation>
                             <pattern>com.github.Querz</pattern>
-                            <shadedPattern>io.github.dinty1.easychannels.dependencies.querz</shadedPattern>
+                            <shadedPattern>io.github.dinty1.discordschematicuploader.dependencies.querz</shadedPattern>
                         </relocation>
                     </relocations>
                 </configuration>
