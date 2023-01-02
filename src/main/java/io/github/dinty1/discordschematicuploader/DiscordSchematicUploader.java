@@ -68,7 +68,7 @@ public class DiscordSchematicUploader extends JavaPlugin {
                 if (this.getDescription().getVersion().equalsIgnoreCase(v)) {
                     getLogger().info("Up to date!");
                 } else {
-                    getLogger().info("An update is available! Get it here: https://github.com/Dinty1/DiscordSchematicUploader/releases");
+                    getLogger().info("An update is available! Get it here: https://modrinth.com/plugin/discordschematicuploader/versions");
                     this.updateAvailable = true;
                 }
             });
