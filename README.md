@@ -33,3 +33,7 @@ This plugin allows you to designate channels where any schematic file that is up
 
 ## Support for Per-Player Schematics
 This plugin supports FastAsyncWorldEdit's per-player schematic feature. See the config for more details.
+
+## Other features
+- Fully customisable messages.
+- Ability to prevent upload of a schematic if it contains certain banned blocks, entities, messages or anything else you can think of.
