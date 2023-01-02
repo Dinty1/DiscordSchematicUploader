@@ -22,6 +22,7 @@
 
 package io.github.dinty1.discordschematicuploader.discordcommand;
 
+import github.scarsz.discordsrv.DiscordSRV;
 import github.scarsz.discordsrv.api.events.DiscordGuildMessageReceivedEvent;
 import github.scarsz.discordsrv.dependencies.jda.api.entities.Message;
 import io.github.dinty1.discordschematicuploader.DiscordSchematicUploader;
@@ -32,30 +33,61 @@ import net.querz.nbt.io.NamedTag;
 import java.awt.*;
 import java.io.File;
 import java.io.IOException;
+import java.util.List;
+import java.util.Objects;
+import java.util.UUID;
 
 public class UploadCommand {
 
-    public static void execute(DiscordGuildMessageReceivedEvent event, File schematicFolder) {
+    public static void execute(DiscordGuildMessageReceivedEvent event, File schematicFolder, boolean fastAsyncWorldEditEnabled) {
         final Message message = event.getMessage();
         final Message.Attachment attachment = message.getAttachments().size() > 0 ? message.getAttachments().get(0) : null;
         final DiscordSchematicUploader plugin = DiscordSchematicUploader.getPlugin();
+        final List<String> flags = MessageUtil.getFlags(event.getMessage(), Objects.requireNonNull(plugin.getConfig().getString("upload-command")));
 
-        if (!RoleUtil.hasAllowedRole(event.getMember(), DiscordSchematicUploader.getPlugin().getConfig().getStringList("upload-command-allowed-roles"))) {
+
+        if (!RoleUtil.hasAllowedRole(event.getMember(), "upload-command-allowed-roles")) {
             message.getChannel().sendMessage(MessageUtil.createEmbedBuilder(Color.RED, message.getAuthor(), ConfigUtil.Message.UPLOAD_COMMAND_NO_PERMISSION.toString()).build()).queue();
         } else if (attachment == null) {
             message.getChannel().sendMessage(MessageUtil.createEmbedBuilder(Color.RED, message.getAuthor(), ConfigUtil.Message.UPLOAD_COMMAND_NO_ATTACHMENT.toString()).build()).queue();
         } else if (attachment.getFileExtension() == null || !(attachment.getFileExtension().equals("schem") || attachment.getFileExtension().equals("schematic"))) {
             message.getChannel().sendMessage(MessageUtil.createEmbedBuilder(Color.RED, message.getAuthor(), ConfigUtil.Message.UPLOAD_COMMAND_INVALID_SCHEMATIC_FILE.toString()).build()).queue();
         } else { // Seems legit
+            boolean uploadingToGlobal = true;
+            if (fastAsyncWorldEditEnabled) {
+                if ((!flags.contains("g") && !plugin.getConfig().getBoolean("upload-command-default-to-global")) || flags.contains("p")) {
+                    UUID uuid = DiscordSRV.getPlugin().getAccountLinkManager().getUuid(event.getAuthor().getId());
+                    if (uuid == null) {
+                        message.getChannel().sendMessage(MessageUtil.createEmbedBuilder(Color.RED, message.getAuthor(), ConfigUtil.Message.NOT_LINKED.toString()).build()).queue();
+                        return;
+                    }
+
+                    schematicFolder = new File(schematicFolder, uuid.toString());
+                    try {
+                        if (!schematicFolder.exists()) schematicFolder.mkdir();
+                    } catch (Exception ignored) { } // There'll be an exception dealt with later on :shrug:
+                    uploadingToGlobal = false;
+                } else { // Going to global so we need to check that user has permission
+                    if (!RoleUtil.hasAllowedRole(event.getMember(), "global-upload-allowed-roles")) {
+                        message.getChannel().sendMessage(MessageUtil.createEmbedBuilder(Color.RED, message.getAuthor(), ConfigUtil.Message.GLOBAL_UPLOAD_NO_PERMISSION.toString()).build()).queue();
+                        if (plugin.getConfig().getBoolean("upload-command-delete-original-message")) message.delete().queue();
+                        return;
+                    }
+                }
+            }
+
+            File finalSchematicFolder = schematicFolder; // Keep the lambda happy
+            boolean finalUploadingToGlobal = uploadingToGlobal;
             message.getChannel().sendMessage(MessageUtil.createEmbedBuilder(Color.GRAY, message.getAuthor(), ConfigUtil.Message.UPLOAD_COMMAND_ATTEMPTING_SCHEMATIC_SAVE.toString()).build()).queue(sentMessage -> {
 
-                final String fileName = ConfigUtil.formatSchematicName(attachment, event.getMember());
+                String fileName = attachment.getFileName();
+                if (finalUploadingToGlobal || plugin.getConfig().getBoolean("use-name-format-for-personal-uploads")) fileName = ConfigUtil.formatSchematicName(attachment, event.getMember());
 
                 // Make sure the schematic doesn't already exist
-                final File downloadedSchematic = new File(schematicFolder, fileName);
-                final boolean allowedToOverwrite = RoleUtil.hasAllowedRole(event.getMember(), plugin.getConfig().getStringList("upload-command-allowed-to-overwrite"));
+                final File downloadedSchematic = new File(finalSchematicFolder, fileName);
+                final boolean allowedToOverwrite = RoleUtil.hasAllowedRole(event.getMember(), "upload-command-allowed-to-overwrite");
                 if (downloadedSchematic.exists()) {
-                    if (message.getContentRaw().substring(plugin.getConfig().getString("upload-command").length()).contains("-o") && allowedToOverwrite) {
+                    if (flags.contains("o") && allowedToOverwrite) {
                         downloadedSchematic.delete();
                     } else {
                         final String overwriteMessage = allowedToOverwrite ? " " + ConfigUtil.Message.UPLOAD_COMMAND_CAN_OVERWRITE : "";

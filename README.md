@@ -18,11 +18,11 @@ Installation itself is easy, simply drag and drop the plugin into your plugins f
 The plugin should create a config.yml file which you can edit to change some settings and messages for the plugin. One of the first things you will need to do is add to the list of allowed roles for the upload and download commands. The comments and examples in the config will explain how to do this.
 
 ## Commands
-`!upload [-o]` with an attached file: Upload a schematic to your server. Use the `-o` flag to overwrite an existing schematic.
+`!upload [-o][-g or -p with FastAsyncWorldEdit]` with an attached file: Upload a schematic to your server. Use the `-o` flag to overwrite an existing schematic.
 
 ![](https://i.imgur.com/bF6vVcI.png)
 
-`!download <name>`: Download a schematic from the server.
+`!download [-g or -p with FastAsyncWorldEdit] <name>`: Download a schematic from the server.
 
 ![](https://i.imgur.com/hJ9GoD4.png)
 
@@ -30,3 +30,6 @@ The plugin should create a config.yml file which you can edit to change some set
 This plugin allows you to designate channels where any schematic file that is uploaded will be automatically processed, regardless of whether a command is run.
 
 ![image](https://user-images.githubusercontent.com/67452089/147857856-9e1c01af-9f89-4dec-bcf7-fa1d721fe6e2.png)
+
+## Support for Per-Player Schematics
+This plugin supports FastAsyncWorldEdit's per-player schematic feature. See the config for more details.

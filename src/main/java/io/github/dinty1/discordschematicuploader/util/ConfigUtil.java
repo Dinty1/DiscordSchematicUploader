@@ -134,7 +134,11 @@ public class ConfigUtil {
         DOWNLOAD_COMMAND_DOWNLOAD_MESSAGE("download-command-download-message"),
         DOWNLOAD_COMMAND_SUCCESS("download-command-success"),
         DOWNLOAD_COMMAND_FAILED_TO_UPLOAD_TO_DISCORD("download-command-failed-to-upload-to-discord"),
-        DOWNLOAD_COMMAND_OTHER_ERROR("download-command-other-error");
+        DOWNLOAD_COMMAND_OTHER_ERROR("download-command-other-error"),
+
+        GLOBAL_UPLOAD_NO_PERMISSION("global-upload-no-permission"),
+        NOT_LINKED("not-linked"),
+        GLOBAL_DOWNLOAD_NO_PERMISSION("global-download-no-permission");
 
 
         private final String configOption;
