@@ -36,4 +36,4 @@ This plugin supports FastAsyncWorldEdit's per-player schematic feature. See the 
 
 ## Other features
 - Fully customisable messages.
-- Ability to prevent upload of a schematic if it contains certain banned blocks, entities, messages or anything else you can think of.
+- [Coming soon] Ability to prevent upload of a schematic if it contains certain banned blocks, entities, messages or anything else you can think of.
