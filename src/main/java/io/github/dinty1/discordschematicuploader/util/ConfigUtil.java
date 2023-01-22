@@ -113,7 +113,6 @@ public class ConfigUtil {
         UPLOAD_COMMAND_NO_PERMISSION("upload-command-no-permission"),
         UPLOAD_COMMAND_NO_ATTACHMENT("upload-command-no-attachment"),
         UPLOAD_COMMAND_INVALID_SCHEMATIC_FILE("upload-command-invalid-schematic-file"),
-        UPLOAD_COMMAND_CONTAINS_BLACKLISTED_PHRASES("upload-command-contains-blacklisted-phrases"),
         UPLOAD_COMMAND_ATTEMPTING_SCHEMATIC_SAVE("upload-command-attempting-schematic-save"),
         UPLOAD_COMMAND_SCHEMATIC_ALREADY_EXISTS("upload-command-schematic-already-exists"),
         UPLOAD_COMMAND_CAN_OVERWRITE("upload-command-can-overwrite"),
