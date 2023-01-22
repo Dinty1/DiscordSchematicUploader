@@ -60,17 +60,46 @@ download-command-allowed-roles: ["Builder", "Staff"]
 #
 # Whether a downloaded schematic should be sent as a private message to whoever ran the command instead of posted in the channel where the command was sent
 send-downloaded-schematic-privately: false
-#
-# Whether the channel whitelist is enabled (see below)
-channel-whitelist-enabled: false
 # ======================================================================================================================
 # CHANNEL WHITELIST - Settings for whitelisting/blacklisting certain channels for commands
 # ======================================================================================================================
+# Whether the channel whitelist is enabled
+channel-whitelist-enabled: false
+#
 # A list of channel IDs where commands can be run (commands in all other channels will be ignored)
 channel-whitelist: ["00000000000000000", "00000000000000000"]
 #
 # Whether the above option instead acts as a blacklist (commands will be accepted in all channels except the ones added)
 channel-whitelist-acts-as-blacklist: false
+# ======================================================================================================================
+# FASTASYNCWORLDEDIT OPTIONS - For features relating to FastAsyncWorldEdit, a fork of WorldEdit. See bottom of the config for messages.
+# NOTE: The player must link their Minecraft and Discord accounts to be able to upload/download to/from their personal folder.
+# ======================================================================================================================
+# Roles that are allowed to upload to the global schematic folder. Role names and IDs are both acceptable.
+# If you wish to allow all users access to upload to the global folder, set this option to ["@everyone"]
+global-upload-allowed-roles: ["@everyone"]
+#
+# Default behaviour of the upload command.
+# If set to true, schematics will go to the global schematic folder unless the upload command contains the "-p" flag.
+# If set to false, schematics will go to the player's personal schematic folder unless the upload command contains the "-g" flag.
+upload-command-default-to-global: true
+#
+# Behaviour of upload channels.
+# If set to true, schematics will be uploaded to the global schematic folder (provided the user has an allowed role).
+# If set to false, schematics will be uploaded to the player's personal schematic folder.
+upload-channels-send-to-global: true
+#
+# Whether to format schematics with the schematic-name-format option if uploading to the personal folder
+use-name-format-for-personal-uploads: false
+#
+# Roles that are allowed to download from the global schematic folder. Role names and IDs are both acceptable.
+# If you wish to allow all users access to download from the global folder, set this option to ["@everyone"]
+global-download-allowed-roles: ["@everyone"]
+#
+# Default behaviour of the download command.
+# If set to true, schematics will be downloaded from the global schematic folder unless the download command contains the "-p" flag.
+# If set to false, schematics will be downloaded from the player's personal schematic folder unless the download command contains the "-g" flag.
+download-command-default-to-global: true
 # ======================================================================================================================
 # MESSAGES
 # Modify these values to change the messages displayed when certain things happen with the plugin.
@@ -128,3 +157,12 @@ download-command-success: "Download successful!"
 download-command-failed-to-upload-to-discord: "An error occurred when trying to download the schematic. The most likely cause is that it is too large to upload to Discord!"
 # Shown when an unknown error occurs when trying to download the schematic (hopefully you won't have to see this)
 download-command-other-error: "An unknown error occurred when trying to download the schematic. Please check the server console for more details."
+# ======================================================================================================================
+# FastAsyncWorldEdit
+# ======================================================================================================================
+# Shown when a user with no permission attempts to upload to the global folder
+global-upload-no-permission: "You do not have permission to upload schematics to the global folder. Use the upload command with the `-p` flag to upload to your personal folder."
+# Shown when a user tries to access their personal schematic folder but is not linked
+not-linked: "You must link your Discord and Minecraft accounts to access your personal schematic folder. Run `/discord link` in game and send me a message with the code you're given."
+# Shown when a user with no permission attempts to download from the global folder
+global-download-no-permission: "You do not have permission to download schematics from the global folder. Use the download command with the `-p` flag to download from your personal folder."

@@ -52,9 +52,8 @@ public class ConfigUtil {
                 final String line = oldConfigReader.nextLine();
                 if (line.startsWith("#")) continue;
                 final String[] split = line.split(":");
-                if (split.length != 2) continue;
-                oldConfigMap.put(split[0], split[1].trim());
-
+                if (split.length == 1) continue;
+                oldConfigMap.put(split[0], String.join(":", Arrays.copyOfRange(split, 1, split.length)).trim());
             }
             oldConfigReader.close();
 
@@ -72,10 +71,10 @@ public class ConfigUtil {
                 newConfigLines.add(line);
                 if (line.startsWith("config-version") || line.startsWith("#")) continue;
                 final String[] split = line.split(":");
-                if (split.length != 2) continue;
+                if (split.length == 1) continue;
                 if (oldConfigMap.containsKey(split[0])) {
                     split[1] = oldConfigMap.get(split[0]);
-                    newConfigLines.set(newConfigLines.size() - 1, String.join(": ", split));
+                    newConfigLines.set(newConfigLines.size() - 1, split[0] + ": " + split[1]);
                     plugin.getLogger().info("Migrated config option " + split[0] + " with value " + split[1]);
                 }
             }
@@ -134,7 +133,11 @@ public class ConfigUtil {
         DOWNLOAD_COMMAND_DOWNLOAD_MESSAGE("download-command-download-message"),
         DOWNLOAD_COMMAND_SUCCESS("download-command-success"),
         DOWNLOAD_COMMAND_FAILED_TO_UPLOAD_TO_DISCORD("download-command-failed-to-upload-to-discord"),
-        DOWNLOAD_COMMAND_OTHER_ERROR("download-command-other-error");
+        DOWNLOAD_COMMAND_OTHER_ERROR("download-command-other-error"),
+
+        GLOBAL_UPLOAD_NO_PERMISSION("global-upload-no-permission"),
+        NOT_LINKED("not-linked"),
+        GLOBAL_DOWNLOAD_NO_PERMISSION("global-download-no-permission");
 
 
         private final String configOption;

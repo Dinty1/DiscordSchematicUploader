@@ -6,7 +6,7 @@
 
     <groupId>io.github.dinty1</groupId>
     <artifactId>DiscordSchematicUploader</artifactId>
-    <version>1.7.0</version>
+    <version>1.8-SNAPSHOT</version>
 
     <properties>
         <maven.compiler.source>8</maven.compiler.source>
@@ -95,7 +95,7 @@
                     <relocations>
                         <relocation>
                             <pattern>com.github.Querz</pattern>
-                            <shadedPattern>io.github.dinty1.easychannels.dependencies.querz</shadedPattern>
+                            <shadedPattern>io.github.dinty1.discordschematicuploader.dependencies.querz</shadedPattern>
                         </relocation>
                     </relocations>
                 </configuration>

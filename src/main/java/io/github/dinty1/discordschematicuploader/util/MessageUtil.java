@@ -27,6 +27,9 @@ import github.scarsz.discordsrv.dependencies.jda.api.entities.Message;
 import github.scarsz.discordsrv.dependencies.jda.api.entities.User;
 
 import java.awt.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 public class MessageUtil {
 
@@ -44,5 +47,16 @@ public class MessageUtil {
         if (message.getAttachments().size() == 0) return false;
         final Message.Attachment attachment = message.getAttachments().get(0);
         return attachment.getFileExtension() != null && (attachment.getFileExtension().equals("schem") || attachment.getFileExtension().equals("schematic"));
+    }
+
+    public static List<String> getFlags(Message message, String command) {
+        final String messageWithoutCommand = message.getContentRaw().substring(command.length());
+        List<String> flags = new ArrayList<>();
+        for (String split : messageWithoutCommand.split(" ")) {
+            if (split.trim().startsWith("-")) {
+                flags.addAll(Arrays.asList(split.substring(1).split("")));
+            }
+        }
+        return flags;
     }
 }

@@ -48,6 +48,10 @@ public class DiscordMessageListener {
         this.plugin = plugin;
     }
 
+    private boolean fastAsyncWorldEditEnabled() {
+        return plugin.getServer().getPluginManager().isPluginEnabled("FastAsyncWorldEdit");
+    }
+
     private boolean isValidCommand(String message) {
         return message.startsWith(uploadCommand) || message.startsWith(downloadCommand);
     }
@@ -83,7 +87,7 @@ public class DiscordMessageListener {
         Message message = event.getMessage();
 
         if (!isValidCommand(event.getMessage().getContentRaw())) {
-            if (plugin.getUploadChannelManager().isUploadChannel(event.getChannel())) plugin.getUploadChannelManager().processMessageInUploadChannel(message, schematicFolder);
+            if (plugin.getUploadChannelManager().isUploadChannel(event.getChannel())) plugin.getUploadChannelManager().processMessageInUploadChannel(message, schematicFolder, fastAsyncWorldEditEnabled());
             return;
         }
 
@@ -96,7 +100,7 @@ public class DiscordMessageListener {
         }
 
         // If it's the upload command
-        if (message.getContentRaw().startsWith(uploadCommand)) UploadCommand.execute(event, schematicFolder);
-        else if (message.getContentRaw().startsWith(downloadCommand)) DownloadCommand.execute(event, schematicFolder);
+        if (message.getContentRaw().startsWith(uploadCommand)) UploadCommand.execute(event, schematicFolder, fastAsyncWorldEditEnabled());
+        else if (message.getContentRaw().startsWith(downloadCommand)) DownloadCommand.execute(event, schematicFolder, fastAsyncWorldEditEnabled());
     }
 }
